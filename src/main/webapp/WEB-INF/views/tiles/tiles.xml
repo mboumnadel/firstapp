@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+
+<tiles-definitions>  
+
+   <!-- Base Definition -->
+   <definition name="base-definition" template="/WEB-INF/views/tiles/layout.jsp">  
+       <put-attribute name="title" value="" />  
+       <put-attribute name="header" value="/WEB-INF/views/tiles/header.jsp" />  
+<!--        <put-attribute name="menu" value="/WEB-INF/views/tiles/menu.jsp" />   -->
+       <put-attribute name="body" value="" />  
+       <put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp" />  
+   </definition>  
+
+   <!-- Employee List -->
+<!--    <definition name="employee-list" extends="base-definition">   -->
+<!--        <put-attribute name="title" value="Employee List" />   -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/tiles/employee-list.jsp" />   -->
+<!--    </definition>   -->
+
+   <!-- Employee Edit -->
+<!--    <definition name="employee-edit" extends="base-definition">   -->
+<!--        <put-attribute name="title" value="Employee Edit" />   -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/tiles/employee-edit.jsp" />   -->
+<!--    </definition> -->
+
+   <!-- Order List -->
+<!--    <definition name="order-list" extends="base-definition"> -->
+<!--        <put-attribute name="title" value="Order List" /> -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/tiles/order-list.jsp" />   -->
+<!--    </definition>   -->
+
+   <!-- Order Edit -->
+<!--    <definition name="order-search" extends="base-definition">   -->
+<!--        <put-attribute name="title" value="Order Edit" />   -->
+<!--        <put-attribute name="body" value="/WEB-INF/views/tiles/order-search.jsp" />   -->
+<!--    </definition> -->
+
+   <definition name="*" extends="base-definition">  
+       <put-attribute name="title" value="Order Edit" />  
+       <put-attribute name="body" value="/WEB-INF/views/tiles/{1}.jsp" />  
+   </definition>
+
+</tiles-definitions>
