@@ -48,7 +48,7 @@ public class OfficeFormatter implements Formatter<Office> {
 	 @Override
 	  public Office parse(String officeId, Locale arg1) throws ParseException {
 		 int id = Integer.parseInt(officeId);
-	     Office office = officeService.findOfficeById(id);
+	     Office office = officeService.findById(id);
 	     return office;
 	  }
 }

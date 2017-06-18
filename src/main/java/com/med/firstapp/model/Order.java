@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -70,8 +69,7 @@ public class Order {
 	private Customer customer;
 
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId", referencedColumnName = "id", nullable=true)
+	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 	
 	public Integer getId() {
@@ -145,4 +143,12 @@ public class Order {
 	public void setOrderDetails(List<OrderDetails> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", number=" + number + ", orderDate=" + orderDate + ", requiredDate=" + requiredDate
+				+ ", shippedDate=" + shippedDate + ", status=" + status + ", comments=" + comments + ", customer="
+				+ customer + ", orderDetails=" + "orderDetails" + "]";
+	}
+	
 }

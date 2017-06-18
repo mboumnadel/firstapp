@@ -6,8 +6,8 @@ import com.med.firstapp.model.Product;
 
 public interface ProductService {
 
-	Product findProductById(int id);
+	Product findById(int id);
 
-	List<Product> findAllProducts();
+	List<Product> findAll();
 	
 }

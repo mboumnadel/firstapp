@@ -36,7 +36,7 @@ public class OfficeEditor extends PropertyEditorSupport {
     		return;
     	}
     	int id = Integer.parseInt(text);
-        Office office = officeService.findOfficeById(id);
+        Office office = officeService.findById(id);
         setValue(office);
     }
 

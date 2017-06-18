@@ -17,12 +17,12 @@ public class ProductServiceImpl implements ProductService {
 	ProductDao productDao;
 	
 	@Override
-	public Product findProductById(int id) {
+	public Product findById(int id) {
 		return productDao.findById(id);
 	}
 
 	@Override
-	public List<Product> findAllProducts() {
+	public List<Product> findAll() {
 		return productDao.findAll();
 	}
 

@@ -1,26 +1,20 @@
 package com.med.firstapp.dao;
 
 import java.io.Serializable;
-
-import org.hibernate.SessionFactory;
+import java.util.List;
 
 public interface AbstractDao<PK extends Serializable, T> {
 
-    //just for testing
-	SessionFactory getSessionFactory();
-
-	T findById(PK key);
-
-	void save(T entity);
-	
-	void persist(T entity);
-
-	void update(T entity);
-
-	void saveOrUpdate(T entity);
+	void remove(T entity);
 
 	T merge(T entity);
 
-	void delete(T entity);
+	void persist(T entity);
+
+	T findById(PK key);
+
+	List<T> findAll();
+
+
 
 }

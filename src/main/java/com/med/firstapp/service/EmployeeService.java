@@ -6,27 +6,19 @@ import com.med.firstapp.model.Employee;
 
 public interface EmployeeService {
 
-	Employee findEmployeeById(int id);
+	Employee findById(int id);
     
-    void persistEmployee(Employee employee);
+    void persist(Employee employee);
 
-	void saveEmployee(Employee employee);
-
-	void updateEmployee(Employee employee);
+	Employee merge(Employee employee);
 	
-	void saveOrUpdateEmployee(Employee employee);
+	void remove(Employee employee);
 
-	Employee mergeEmployee(Employee employee);
-	
-	void deleteEmployee(Employee employee);
+    void deleteByNumber(String number);
 
-    void deleteEmployeeByNumber(String number);
+    List<Employee> findAll(); 
 
-    List<Employee> findAllEmployees(); 
-
-    Employee findEmployeeByNumber(String number);
+    Employee findByNumber(String number);
  
     boolean isEmployeeNumberUnique(Integer id, String number);
-
-    public void main(Employee employee);
 }

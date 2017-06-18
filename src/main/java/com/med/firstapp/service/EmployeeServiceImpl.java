@@ -2,9 +2,6 @@ package com.med.firstapp.service;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,55 +10,43 @@ import com.med.firstapp.dao.EmployeeDao;
 import com.med.firstapp.model.Employee;
 
 @Service("employeeService")
-//@Transactional
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
     private EmployeeDao dao;
 	
-	@Transactional
+	
 	@Override
-	public Employee findEmployeeById(int id) {
+	public Employee findById(int id) {
+		
+		/*System.out.println("** findById 10 1 **");
+		dao.findById(10);
+		
+		System.out.println("** findById 10 2 **");
+		
+		dao.findById(10);
+		System.out.println("** findById 10 3 **");*/
+		
 		return dao.findById(id);
 	}
 
-	@Transactional
+	
 	@Override
-	public void persistEmployee(Employee employee) {
+	public void persist(Employee employee) {
 		dao.persist(employee);
 		
 	}
-	
-	@Transactional
-	@Override
-	public void saveEmployee(Employee employee) {
-		 dao.save(employee);
-	}
 
-	@Transactional
 	@Override
-	public void updateEmployee(Employee employee) {
-		dao.update(employee);
-		
-	}
-
-	@Transactional
-	@Override
-	public void saveOrUpdateEmployee(Employee employee) {
-		dao.saveOrUpdate(employee);
-		
-	}
-
-	@Transactional
-	@Override
-	public Employee mergeEmployee(Employee employee) {
+	public Employee merge(Employee employee) {
 		return dao.merge(employee);
 	}
 
-	@Transactional
+	
 	@Override
-	public void deleteEmployee(Employee employee) {
-		dao.delete(employee);
+	public void remove(Employee employee) {
+		dao.remove(employee);
 	}
 
 	//@Override
@@ -91,61 +76,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
-	@Transactional
+	
 	@Override
-	public void deleteEmployeeByNumber(String number) {
+	public void deleteByNumber(String number) {
 		dao.deleteByNumber(number);
 	}
 
-	@Transactional
+	
 	@Override
-	public List<Employee> findAllEmployees() {
+	public List<Employee> findAll() {
 		return dao.findAll();
 	}
 
-	@Transactional
+	
 	@Override
-	public Employee findEmployeeByNumber(String number) {
+	public Employee findByNumber(String number) {
 		return dao.findByNumber(number);
 	}
 
 	@Override
 	public boolean isEmployeeNumberUnique(Integer id, String number) {
-		 Employee employee = findEmployeeByNumber(number);
+		 Employee employee = findByNumber(number);
 	     return ( employee == null || ((id != null) && (employee.getId() == id)));
-	}
-
-	@Override
-	public void main(Employee employee){
-		
-		SessionFactory sessionFactory = dao.getSessionFactory();
-
-		Session sess = sessionFactory.openSession();
-		
-		//do some work
-//		sess.update(employee);
-//		
-//		sess.close();
-		
-		
-		 Transaction tx = null;
-		 try {
-		     tx = sess.beginTransaction();
-		     //do some work
-		     
-		     
-		     sess.update(employee);     
-		     
-		     tx.commit();
-		 }
-		 catch (Exception e) {
-		     if (tx!=null) tx.rollback();
-		     throw e;
-		 }
-		 finally {
-		     sess.close();
-		 }
-		 
-		
 	}
 }

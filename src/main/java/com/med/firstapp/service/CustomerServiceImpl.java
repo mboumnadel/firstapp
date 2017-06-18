@@ -11,60 +11,39 @@ import com.med.firstapp.model.Customer;
 
 
 @Service("customerService")
-//@Transactional
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerDao dao;
 	
-	@Transactional
+	
 	@Override
-	public Customer findCustomerById(int id) {
+	public Customer findById(int id) {
 		return dao.findById(id);
 	}
 
-	@Transactional
+	
 	@Override
-	public void persistCustomer(Customer customer) {
+	public void persist(Customer customer) {
 		dao.persist(customer);
 		
 	}
-	
-	@Transactional
-	@Override
-	public void saveCustomer(Customer customer) {
-		 dao.save(customer);
-	}
 
-	@Transactional
 	@Override
-	public void updateCustomer(Customer customer) {
-		dao.update(customer);
-		
-	}
-
-	@Transactional
-	@Override
-	public void saveOrUpdateCustomer(Customer customer) {
-		dao.saveOrUpdate(customer);
-		
-	}
-
-	@Transactional
-	@Override
-	public Customer mergeCustomer(Customer customer) {
+	public Customer merge(Customer customer) {
 		return dao.merge(customer);
 	}
 
-	@Transactional
+	
 	@Override
-	public void deleteCustomer(Customer customer) {
-		dao.delete(customer);
+	public void remove(Customer customer) {
+		dao.remove(customer);
 	}
 	
-	@Transactional
+	
 	@Override
-	public List<Customer> findAllCustomers() {
+	public List<Customer> findAll() {
 		return dao.findAll();
 	}
 }

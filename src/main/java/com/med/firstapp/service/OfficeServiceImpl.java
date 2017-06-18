@@ -17,13 +17,13 @@ public class OfficeServiceImpl implements OfficeService {
     private OfficeDao dao;
 	
 	@Override
-	public Office findOfficeById(int id) {
+	public Office findById(int id) {
 		return dao.findById(id);
 	}
 
 	@Override
-	public List<Office> findAllOffices() {
-		return dao.findAll();	
+	public List<Office> findAll() {
+		return dao.findAll();
 	}
 
 }

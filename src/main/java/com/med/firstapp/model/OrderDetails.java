@@ -57,6 +57,10 @@ public class OrderDetails {
 		return id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public Order getOrder() {
 		return order;
 	}
@@ -96,4 +100,11 @@ public class OrderDetails {
 	public void setOrderLineNumber(Integer orderLineNumber) {
 		this.orderLineNumber = orderLineNumber;
 	}
+
+	@Override
+	public String toString() {
+		return "OrderDetails [id=" + id + ", order=" + order + ", product=" + product + ", quantityOrdered="
+				+ quantityOrdered + ", priceEach=" + priceEach + ", orderLineNumber=" + orderLineNumber + "]";
+	}
+	
 }

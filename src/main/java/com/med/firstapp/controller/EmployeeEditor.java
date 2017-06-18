@@ -37,7 +37,7 @@ public class EmployeeEditor extends PropertyEditorSupport {
     		return;
     	}
     	int id = Integer.parseInt(text);
-        Employee employee = employeeService.findEmployeeById(id);
+        Employee employee = employeeService.findById(id);
         setValue(employee);
     }
 }

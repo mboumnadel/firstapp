@@ -17,7 +17,7 @@ public class OfficeIdToOfficeConverter implements Converter<String, Office> {
     public Office convert (String id) {
         try {
             int officeId = Integer.valueOf(id);
-            return officeService.findOfficeById(officeId);
+            return officeService.findById(officeId);
         } catch (NumberFormatException e) {
             return null;
         }

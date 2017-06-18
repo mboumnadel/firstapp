@@ -67,7 +67,8 @@ public class EmployeeController {
 	@RequestMapping(value = {"", "/", "list"}, method = RequestMethod.GET)
 	public String listEmployees(ModelMap model) {
 		
-		List<Employee> findAllEmployees = employeeService.findAllEmployees();
+		List<Employee> findAllEmployees = employeeService.findAll();
+		//List<Employee> findAllEmployees = new ArrayList<>();
 
         model.addAttribute("employees", findAllEmployees);
 		
@@ -80,8 +81,8 @@ public class EmployeeController {
 
 		Employee employee = new Employee();
         model.addAttribute("employee", employee);
-        List<Office> offices = officeService.findAllOffices();
-        List<Employee> employees = employeeService.findAllEmployees();
+        List<Office> offices = officeService.findAll();
+        List<Employee> employees = employeeService.findAll();
         
         
         model.addAttribute("offices", offices);
@@ -93,13 +94,19 @@ public class EmployeeController {
 	@RequestMapping(value = {"/edit/{id}"}, method = RequestMethod.GET)
 	public String editEmployee(@PathVariable int id, ModelMap model) {
 		
-		Employee employee = employeeService.findEmployeeById(id);
+		System.out.println("** inside editEmployee controller 1**");
+		Employee employee = employeeService.findById(id);
+		System.out.println("** inside editEmployee controller 2**");
+		employee = employeeService.findById(id);
+		System.out.println("** inside editEmployee controller 3**");
+		
+		
         model.addAttribute("employee", employee);
 
-        List<Office> offices = officeService.findAllOffices();
+        List<Office> offices = officeService.findAll();
         model.addAttribute("offices", offices);
 
-        List<Employee> employees = employeeService.findAllEmployees();
+        List<Employee> employees = employeeService.findAll();
         model.addAttribute("employees", employees);
 
         System.out.println("** inside editEmployee **");
@@ -110,10 +117,10 @@ public class EmployeeController {
 	@RequestMapping(value = {"/save"}, method = RequestMethod.POST)
 	public String saveEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, ModelMap model){
 
-        List<Employee> employees = employeeService.findAllEmployees();
+        List<Employee> employees = employeeService.findAll();
         model.addAttribute("employees", employees);
 
-        List<Office> offices = officeService.findAllOffices();
+        List<Office> offices = officeService.findAll();
         model.addAttribute("offices", offices);
 
         if(result.hasErrors()) {
@@ -123,7 +130,8 @@ public class EmployeeController {
         	return "employee-edit";
         }
 
-        employeeService.saveOrUpdateEmployee(employee);
+       //employeeService.saveOrUpdateEmployee(employee);
+       employeeService.merge(employee);
         
 
         model.addAttribute("saveEmployeeStatus", true);

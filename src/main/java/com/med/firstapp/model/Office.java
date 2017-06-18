@@ -1,5 +1,6 @@
 package com.med.firstapp.model;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="offices")
+@Cacheable
 public class Office {
 
 	//Mapping

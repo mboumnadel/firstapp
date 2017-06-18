@@ -23,7 +23,7 @@ public class CustomerEditor extends PropertyEditorSupport {
 
     	String ret = (customer == null)?  null : customer.getId().toString();
     	
-    	System.out.println(" CustomerEditor getAsText returns:" + ret + ".");
+    	System.out.println(" CustomerEditor getAsText from object returns:" + ret + ".");
     	
     	return ret;
 	}
@@ -31,14 +31,16 @@ public class CustomerEditor extends PropertyEditorSupport {
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {
     	
-		System.out.println(" CustomerEditor setAsText text:" + text + ".");
+		// REVIEW RELATIONS AND FETCH.MODE TO LAZY ??????s
+		System.out.println(" CustomerEditor setAsText text:" + text + ". BEGIN");
 
     	if(text.equals("")){
     		setValue(null);
     		return;
     	}
     	int id = Integer.parseInt(text);
-        Customer customer = customerService.findCustomerById(id);
+        Customer customer = customerService.findById(id);
         setValue(customer);
+        System.out.println(" CustomerEditor setAsText text:" + text + ". END");
     }
 }

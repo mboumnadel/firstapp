@@ -2,21 +2,30 @@ package com.med.firstapp.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 public abstract class AbstractDaoImpl<PK extends Serializable, T> implements AbstractDao<PK, T> {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    //@Autowired
+    //@PersistenceUnit
+    //private EntityManagerFactory entityManagerFactory;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Override
-	public SessionFactory getSessionFactory(){ 
-    	return sessionFactory;
+    /*
+    protected EntityManagerFactory getEntityManagerFactory(){ 
+    	return entityManagerFactory;
     }
+    */
+    
     
     private final Class<T> persistentClass;
 
@@ -25,48 +34,62 @@ public abstract class AbstractDaoImpl<PK extends Serializable, T> implements Abs
         this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
-    protected Session getSession(){
-        return sessionFactory.getCurrentSession();
+    protected EntityManager getEntityManager(){
+    	// Was sessionFactory.getCurrentSession();
+    	//EntityManager entityManager = entityManagerFactory.createEntityManager();
+    	System.out.println("AbstractDaoImpl getEntityManager hasCode: " + this.entityManager.hashCode());
+    	System.out.println("AbstractDaoImpl getEntityManagerFactory hasCode: " + this.entityManager.getEntityManagerFactory().hashCode());
+
+    	return this.entityManager;
     }
  
     @Override
 	public T findById(PK key) {
-        return (T) getSession().get(persistentClass, key);
+        return (T) getEntityManager().find(persistentClass, key);
     }
  
     @Override
 	public void persist(T entity) {
-        getSession().persist(entity);
-    }
- 
-    @Override
-	public void save(T entity) {
-        getSession().save(entity);
+    	getEntityManager().persist(entity);
     }
     
-    @Override
-	public void update(T entity) {
-        getSession().update(entity);
-    }
-    
-    @Override
-	public void saveOrUpdate(T entity) {
-        getSession().saveOrUpdate(entity);
-    }
-    
-    @SuppressWarnings("unchecked")
 	@Override
 	public T merge(T entity) {
-        return (T) getSession().merge(entity);
+        return (T) getEntityManager().merge(entity);
     }
     
     @Override
-	public void delete(T entity) {
-        getSession().delete(entity);
+	public void remove(T entity) {
+    	getEntityManager().remove(entity);
     }
     
-    protected Criteria createEntityCriteria(){
-        return getSession().createCriteria(persistentClass);
+	@Override
+	public List<T> findAll() {
+
+		
+		System.out.println("AbstractDaoImpl findAll start ");
+		
+        CriteriaBuilder builder = getCriteriaBuilder();
+        
+        CriteriaQuery<T> criteria = builder.createQuery( persistentClass );
+        Root<T> root = criteria.from( persistentClass );
+        criteria.select( root );
+
+        
+        System.out.println("AbstractDaoImpl findAll middle");
+        
+        List<T> list= getEntityManager().createQuery( criteria ).getResultList();
+        
+        System.out.println("AbstractDaoImpl findAll End");
+        
+        return list;
+	}
+    
+    
+	protected CriteriaBuilder getCriteriaBuilder(){
+
+    	CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+    	return builder;
     }
  
 }

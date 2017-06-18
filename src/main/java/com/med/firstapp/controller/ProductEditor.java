@@ -22,7 +22,7 @@ public class ProductEditor extends PropertyEditorSupport {
 
     	String ret = (product == null)?  null : product.getId().toString();
     	
-    	System.out.println(" ProductEditor getAsText returns:" + ret + ".");
+    	System.out.println(" ProductEditor getAsText from object returns:" + ret + ".");
     	
     	return ret;
 	}
@@ -30,14 +30,15 @@ public class ProductEditor extends PropertyEditorSupport {
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {
     	
-		System.out.println(" ProductEditor setAsText text:" + text + ".");
+		System.out.println(" ProductEditor setAsText text:" + text + ". START");
 
     	if(text.equals("")){
     		setValue(null);
     		return;
     	}
     	int id = Integer.parseInt(text);
-        Product product = productService.findProductById(id);
+        Product product = productService.findById(id);
         setValue(product);
+        System.out.println(" ProductEditor setAsText text:" + text + ". END");
     }
 }

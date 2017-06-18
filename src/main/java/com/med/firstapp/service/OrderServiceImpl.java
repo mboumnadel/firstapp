@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.med.firstapp.dao.OrderDao;
 import com.med.firstapp.model.Order;
-import com.med.firstapp.model.OrderDetails;
 
 @Service("orderService")
 @Transactional
@@ -17,49 +16,28 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
     private OrderDao dao;
 	
-	@Transactional
+	
 	@Override
-	public Order findOrderById(int id) {
+	public Order findById(int id) {
 		return dao.findById(id);
 	}
 
-	@Transactional
+	
 	@Override
-	public void persistOrder(Order order) {
+	public void persist(Order order) {
 		dao.persist(order);
 		
 	}
-	
-	@Transactional
-	@Override
-	public void saveOrder(Order order) {
-		 dao.save(order);
-	}
 
-	@Transactional
 	@Override
-	public void updateOrder(Order order) {
-		dao.update(order);
-		
-	}
-
-	@Transactional
-	@Override
-	public void saveOrUpdateOrder(Order order) {
-		dao.saveOrUpdate(order);
-		
-	}
-
-	@Transactional
-	@Override
-	public Order mergeOrder(Order order) {
+	public Order merge(Order order) {
 		return dao.merge(order);
 	}
 
-	@Transactional
+	
 	@Override
-	public void deleteOrder(Order order) {
-		dao.delete(order);
+	public void remove(Order order) {
+		dao.remove(order);
 	}
 	
 	
@@ -69,17 +47,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	@Transactional
-	public Order findOrderAndDetailsById(int orderId) {
-		Order order = dao.findById(orderId);
-		List<OrderDetails> orderDetailsList = order.getOrderDetails();
 	
-		for (OrderDetails orderDetails : orderDetailsList) {
-			
-			System.out.println("Quantity Ordered:" + orderDetails.getQuantityOrdered());
-
-			System.out.println("  product.id:" + orderDetails.getProduct().getId());
-		}
+	public Order findOrderAndDetailsById(int orderId) {
+		
+		Order order = dao.findOrderAndDetailsById(orderId);
+		
+//		Order order = dao.findById(orderId);
+//		List<OrderDetails> orderDetailsList = order.getOrderDetails();
+//	
+//		for (OrderDetails orderDetails : orderDetailsList) {
+//
+//			Integer quantityOrdered = orderDetails.getQuantityOrdered();
+//			Integer id = orderDetails.getProduct().getId();
+//		}
 		
 		return order;
 	}

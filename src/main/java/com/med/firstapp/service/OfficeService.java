@@ -6,8 +6,7 @@ import com.med.firstapp.model.Office;
 
 public interface OfficeService {
 
-	Office findOfficeById(int id);
+	Office findById(int id);
 
-	List<Office> findAllOffices(); 
-    
+	List<Office> findAll(); 
 }

@@ -22,7 +22,7 @@ public class OrderEditor extends PropertyEditorSupport {
 
     	String ret = (order == null)?  null : order.getId().toString();
     	
-    	System.out.println(" OrderEditor getAsText returns:" + ret + ".");
+    	System.out.println(" OrderEditor getAsText from object returns:" + ret + ".");
     	
     	return ret;
 	}
@@ -30,14 +30,15 @@ public class OrderEditor extends PropertyEditorSupport {
 	@Override
     public void setAsText(String text) throws IllegalArgumentException {
     	
-		System.out.println(" OrderEditor setAsText text:" + text + ".");
+		System.out.println(" OrderEditor setAsText text:" + text + ". START");
 
     	if(text.equals("")){
     		setValue(null);
     		return;
     	}
     	int id = Integer.parseInt(text);
-        Order order = orderService.findOrderById(id);
+        Order order = orderService.findById(id);
         setValue(order);
+        System.out.println(" OrderEditor setAsText text:" + text + ". END");
     }
 }

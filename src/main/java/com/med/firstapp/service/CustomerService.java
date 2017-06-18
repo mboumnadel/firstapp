@@ -6,19 +6,13 @@ import com.med.firstapp.model.Customer;
 
 public interface CustomerService {
 
-	Customer findCustomerById(int id);
+	Customer findById(int id);
     
-    void persistCustomer(Customer Customer);
+    void persist(Customer Customer);
 
-	void saveCustomer(Customer Customer);
-
-	void updateCustomer(Customer Customer);
+	Customer merge(Customer Customer);
 	
-	void saveOrUpdateCustomer(Customer Customer);
-
-	Customer mergeCustomer(Customer Customer);
+	void remove(Customer Customer);
 	
-	void deleteCustomer(Customer Customer);
-	
-	List<Customer> findAllCustomers(); 
+	List<Customer> findAll(); 
 }

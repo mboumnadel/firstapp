@@ -2,6 +2,7 @@ package com.med.firstapp.model;
 
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="employees")
+@Cacheable
 public class Employee {
 
 	//Mapping
