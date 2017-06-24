@@ -27,4 +27,18 @@
 <!--         <url-pattern>/welcome</url-pattern> -->
 <!--         <url-pattern>*.html</url-pattern> -->
     </servlet-mapping>
+    
+    
+    
+    
+    <servlet>
+		<servlet-name>Demo</servlet-name>
+		<servlet-class>com.med.firstapp.rest.ServletDemo</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Demo</servlet-name>
+		<url-pattern>/Demo</url-pattern>
+	</servlet-mapping>
+    
 </web-app>
