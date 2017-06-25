@@ -47,7 +47,7 @@ import com.med.firstapp.model.User;
 		user.setId(1);;
 		user.setName("User 1");
 		user.setProfession("profession 1");
-		user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("1"));
+		//user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("1"));
 		users.add(user);
 
 		System.out.println("22222222 ...");
@@ -56,14 +56,14 @@ import com.med.firstapp.model.User;
 		user.setId(2);;
 		user.setName("User 2");
 		user.setProfession("profession 2");
-		user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("2"));
+		//user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("2"));
 		users.add(user);
 
 		user = new User();
 		user.setId(3);;
 		user.setName("User 3");
 		user.setProfession("profession 3");
-		user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("3"));
+		//user.setSelf(Link.fromUriBuilder(uriBuilder).rel("self").build("3"));
 		users.add(user);
 	}
 
@@ -78,7 +78,7 @@ import com.med.firstapp.model.User;
 
 	@GET
 	@Path("{userId}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getUsersById(@PathParam("userId") Integer userId) {
 
 		init();

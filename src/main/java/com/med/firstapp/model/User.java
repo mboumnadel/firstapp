@@ -2,22 +2,61 @@ package com.med.firstapp.model;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter; 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+import org.glassfish.jersey.linking.InjectLink.Style;
+import org.glassfish.jersey.linking.InjectLinks;
+
+import com.med.firstapp.rest.UserResource;
+
+
+
+@InjectLinks({
+		@InjectLink(
+				   style = Style.ABSOLUTE,
+		           resource = UserResource.class,
+		           method = "getUsersById",
+		           bindings = @Binding(name = "userId", value = "${instance.id}"),
+		           rel = "header" 
+		   )
+})
 
 @XmlRootElement(name = "user") 
 public class User implements Serializable {  
    private static final long serialVersionUID = 1L; 
    private int id; 
-   private String name; 
+   private String name;
    private String profession;  
-
+   
+   
+   @InjectLinks({
+	   @InjectLink(
+			   style = Style.ABSOLUTE,
+	           resource = UserResource.class,
+	           method = "getUsersById",
+	           bindings = @Binding(name = "userId", value = "${instance.id}"),
+	           rel = "self" 
+	   ),
+	   @InjectLink(
+			   style = Style.ABSOLUTE,
+	           resource = UserResource.class,
+	           method = "getUsersById",
+	           bindings = @Binding(name = "userId", value = "${instance.id}"),
+	           rel = "self2" 
+	   )
+   })
+   @XmlElement(name = "link")
+   @XmlElementWrapper(name = "links")
    @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
-   @XmlElement(name="link")
-   private Link self;
+   private List<Link> links;
    
    public User(){} 
    
@@ -48,12 +87,12 @@ public class User implements Serializable {
       this.profession = profession; 
    }
 
-   public void setSelf(Link link){
-	   this.self = link;
-   }
-   public Link getSelf(){
-	   return self;
-   }
+//   public void setSelf(Link link){
+//	   this.self = link;
+//   }
+//   public Link getSelf(){
+//	   return self;
+//   }
    
    @Override
 	public String toString() {
