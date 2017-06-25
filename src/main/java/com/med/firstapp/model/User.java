@@ -1,9 +1,12 @@
 package com.med.firstapp.model;
 
 
-import java.io.Serializable;  
-import javax.xml.bind.annotation.XmlElement; 
-import javax.xml.bind.annotation.XmlRootElement; 
+import java.io.Serializable;
+
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter; 
 
 @XmlRootElement(name = "user") 
 public class User implements Serializable {  
@@ -12,8 +15,12 @@ public class User implements Serializable {
    private String name; 
    private String profession;  
 
+   @XmlJavaTypeAdapter(Link.JaxbAdapter.class)
+   @XmlElement(name="link")
+   private Link self;
+   
    public User(){} 
-    
+   
    public User(int id, String name, String profession){  
       this.id = id; 
       this.name = name; 
@@ -39,6 +46,13 @@ public class User implements Serializable {
    @XmlElement 
    public void setProfession(String profession) { 
       this.profession = profession; 
+   }
+
+   public void setSelf(Link link){
+	   this.self = link;
+   }
+   public Link getSelf(){
+	   return self;
    }
    
    @Override
