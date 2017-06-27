@@ -23,7 +23,7 @@ import com.med.firstapp.rest.UserResource;
 		@InjectLink(
 				   style = Style.ABSOLUTE,
 		           resource = UserResource.class,
-		           method = "getUsersById",
+		           method = "getUserById",
 		           bindings = @Binding(name = "userId", value = "${instance.id}"),
 		           rel = "header" 
 		   )
@@ -41,14 +41,14 @@ public class User implements Serializable {
 	   @InjectLink(
 			   style = Style.ABSOLUTE,
 	           resource = UserResource.class,
-	           method = "getUsersById",
+	           method = "getUserById",
 	           bindings = @Binding(name = "userId", value = "${instance.id}"),
 	           rel = "self" 
 	   ),
 	   @InjectLink(
 			   style = Style.ABSOLUTE,
 	           resource = UserResource.class,
-	           method = "getUsersById",
+	           method = "getUserById",
 	           bindings = @Binding(name = "userId", value = "${instance.id}"),
 	           rel = "self2" 
 	   )
