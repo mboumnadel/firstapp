@@ -2,7 +2,6 @@ package com.med.firstapp.rest;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -23,13 +22,13 @@ import com.med.firstapp.model.User;
 
 
 @Path("/users")
-	public class UserResource {
+	public class UserRestController {
 
 	@Context UriInfo uriInfo;
 
 	private UserService userService = new UserService();
 
-	public UserResource(){
+	public UserRestController(){
 		System.out.println("UserService constructor");
 	}
 
@@ -54,8 +53,8 @@ import com.med.firstapp.model.User;
 		}
 
 		UriBuilder uriBuilder = uriInfo.getBaseUriBuilder();
-		uriBuilder.path(UserResource.class);
-		uriBuilder.path(UserResource.class, "getUserById");
+		uriBuilder.path(UserRestController.class);
+		uriBuilder.path(UserRestController.class, "getUserById");
 
 		Link self = Link.fromUriBuilder(uriBuilder).rel("self").build("3");
 

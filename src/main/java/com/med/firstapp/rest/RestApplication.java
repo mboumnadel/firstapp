@@ -11,7 +11,7 @@ public class RestApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> set = new HashSet<>();
-        set.add(UserResource.class);
+        set.add(UserRestController.class);
         return set;
     }
 }

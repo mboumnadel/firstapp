@@ -15,14 +15,14 @@ import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLink.Style;
 import org.glassfish.jersey.linking.InjectLinks;
 
-import com.med.firstapp.rest.UserResource;
+import com.med.firstapp.rest.UserRestController;
 
 
 
 @InjectLinks({
 		@InjectLink(
 				   style = Style.ABSOLUTE,
-		           resource = UserResource.class,
+		           resource = UserRestController.class,
 		           method = "getUserById",
 		           bindings = @Binding(name = "userId", value = "${instance.id}"),
 		           rel = "header" 
@@ -40,14 +40,14 @@ public class User implements Serializable {
    @InjectLinks({
 	   @InjectLink(
 			   style = Style.ABSOLUTE,
-	           resource = UserResource.class,
+	           resource = UserRestController.class,
 	           method = "getUserById",
 	           bindings = @Binding(name = "userId", value = "${instance.id}"),
 	           rel = "self" 
 	   ),
 	   @InjectLink(
 			   style = Style.ABSOLUTE,
-	           resource = UserResource.class,
+	           resource = UserRestController.class,
 	           method = "getUserById",
 	           bindings = @Binding(name = "userId", value = "${instance.id}"),
 	           rel = "self2" 
