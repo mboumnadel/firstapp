@@ -4,7 +4,6 @@ package com.med.firstapp.rest;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -21,6 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Lists;
+import com.med.firstapp.model.Email;
 import com.med.firstapp.model.User;
 
 
@@ -39,20 +39,17 @@ import com.med.firstapp.model.User;
 
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public List<UserResource> getUsers(){
-
-		Function<User, UserResource> toResource = new Function<User, UserResource>() {
-			@Override public UserResource apply(User user) { return new UserResource(user); }
-		};
+	public Response getUsers(){
 
 		List<User> users = userService.getUsers();
-		//List<UserResource> userResources = Lists.transform(users, toResource::apply);
 		List<UserResource> userResources = Lists.transform(users, (User user)->{return new UserResource(user);});
 
 		//Make the the transformation happen once and forever
 		userResources = Arrays.asList(userResources.toArray(new UserResource[0]));
 
-		return userResources;
+        //return Response.ok(new GenericEntity<List<UserResource>>(userResources) {}).build();
+
+        return Response.ok(new UserResource.UserResources(userResources)).build();
 	}
 
 	@GET
@@ -77,15 +74,49 @@ import com.med.firstapp.model.User;
 		return  Response.ok(userResource).links(self).build();
 	}
 
-
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public UserResource addUser(User user){
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response addUser(UserResource userResource ){
+
+		System.out.println("UserRestController addUser");
+
+		User user = userResource.getUser();
 
 		user = userService.addUser(user);
 
-		return new UserResource(user);
+		UserResource userResource1 = new UserResource(user);
+
+		return  Response.ok().entity(userResource1).build();
+
 	}
+
+	@GET
+	@Path("/email")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Email getEmail(){
+
+		System.out.println("getEmailXml");
+
+		Email email = new Email("GET EMAIL AD", " TYTPPE00E");
+
+		return email;
+//		return  Response.ok().entity(email).build();
+	}
+
+	@POST
+	@Path("/email")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response addEmail(Email email){
+
+
+		System.out.println("addEmailXml");
+
+		return  Response.ok().entity(email).build();
+	}
+
+
 
 }
