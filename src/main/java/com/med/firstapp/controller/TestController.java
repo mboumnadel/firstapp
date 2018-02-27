@@ -26,6 +26,8 @@ import com.med.firstapp.service.CustomerService;
 import com.med.firstapp.service.DummyBean;
 import com.med.firstapp.service.DummyService;
 import com.med.firstapp.service.OrderService;
+import com.med.firstapp.service.OwnerService;
+import com.med.firstapp.service.VehicleService;
 
 @Controller
 @RequestMapping("/test")
@@ -35,6 +37,12 @@ public class TestController {
 	//http://blog.jhades.org/how-does-spring-transactional-really-work/
 	//http://blog.jhades.org/setup-and-gotchas-of-the-hibernate-second-level-and-query-caches/
 	//http://www.baeldung.com/spring-requestmapping
+
+	@Autowired
+	private VehicleService vehicleService;
+
+	@Autowired
+	private OwnerService ownerService;
 
 	@Autowired
 	private OrderService orderService;
@@ -114,4 +122,78 @@ public class TestController {
 		return "order-edit";
 	}
 
+	@RequestMapping(value = {"/testTrans/1"})
+	public String testNoTransLoadSameEntityTwicewice(){
+
+		System.out.println("---- starting TestController");
+
+		vehicleService.testNoTransLoadSameEntityTwice();
+
+		System.out.println("---- End TestController");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testTrans/2"})
+	public String testTransLoadSameEntityTwice(){
+
+		System.out.println("---- starting testTransLoadSameEntityTwice TestController");
+
+		vehicleService.testTransLoadSameEntityTwice();
+
+		System.out.println("---- End testTransLoadSameEntityTwice TestController");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testTrans/3"})
+	public String testTransLoadSameEntityTwice2(){
+
+		//First Level Cache is NOT working ACROOS transactions
+		//First Level Cache is working and caching entity ONLY within a transaction
+		//One SQL query is issued to DB for every call to the service
+		//Same entityManager
+
+		System.out.println("---- starting testTransLoadSameEntityTwice2 TestController");
+
+		vehicleService.testTransLoadSameEntityTwice();
+
+		System.out.println("---- between testTransLoadSameEntityTwice2 TestController");
+
+		vehicleService.testTransLoadSameEntityTwice();
+
+		System.out.println("---- End testTransLoadSameEntityTwice2 TestController");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testTrans/4"})
+	public String testTwoServices(ModelMap model) {
+
+		//Every Service gets injected a different entityManager
+
+		System.out.println("---- starting testTwoServices TestController");
+
+		vehicleService.testTransLoadSameEntityTwice();
+
+		System.out.println("---- between testTwoServices TestController");
+
+		ownerService.testTransLoadSameEntityTwice();
+
+		System.out.println("---- End testTwoServices TestController");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testTrans/5"})
+	public String testTransTwoDaos() throws Exception{
+
+		System.out.println("---- starting testTransTwoDaos TestController");
+
+		ownerService.testTransTwoDaos();
+
+		System.out.println("---- End testTransTwoDaos TestController");
+
+		return "test_trans";
+	}
 }
