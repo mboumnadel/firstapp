@@ -1,23 +1,22 @@
-package com.med.firstapp.model;
-
+package com.med.firstapp.rest;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class User implements Serializable {
+public class UserDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String name;
 	private String profession;
-	private List<Email> emails = new ArrayList<>();
+	private List<EmailDto> emailDtos = new ArrayList<>();
 
-	public User(){}
+	public UserDto(){}
 
-	public User(int id, String name, String profession){
+	public UserDto(int id, String name, String profession){
 		this.id = id;
 		this.name = name;
 		this.profession = profession;
@@ -47,12 +46,12 @@ public class User implements Serializable {
 		this.profession = profession + " from User";
 	}
 
-	public List<Email> getEmails() {
-		return emails;
+	public List<EmailDto> getEmailDtos() {
+		return emailDtos;
 	}
 
-	public void setEmails(List<Email> emails) {
-		this.emails = emails;
+	public void setEmailDtos(List<EmailDto> emailDtos) {
+		this.emailDtos = emailDtos;
 	}
 
 	@Override

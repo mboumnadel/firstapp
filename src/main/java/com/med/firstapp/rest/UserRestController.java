@@ -2,6 +2,7 @@ package com.med.firstapp.rest;
 
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.mapstruct.factory.Mappers;
+
 import com.google.common.collect.Lists;
 import com.med.firstapp.model.Email;
 import com.med.firstapp.model.User;
@@ -30,6 +33,8 @@ import com.med.firstapp.model.User;
 	@Context UriInfo uriInfo;
 
 	private UserService userService = new UserService();
+
+	private EntityMapper entityMapper = Mappers.getMapper(EntityMapper.class);
 
 	public UserRestController(){
 		System.out.println("UserRestController constructor");
@@ -89,6 +94,37 @@ import com.med.firstapp.model.User;
 
 		return  Response.ok().entity(userResource1).build();
 
+	}
+
+
+
+
+	@GET
+	@Path("/emailDto")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public UserDto getEmailDto(){
+
+		System.out.println("getEmail with DTO");
+
+		User user = new User(100, "user name 100", "profession 100");
+
+		List<Email> emails = new ArrayList<>();
+
+		Email email = new Email("GET EMAIL in asdsa AD", " TYTPPE00E");
+
+		emails.add(email);
+
+		user.setEmails(emails);
+
+		//continue here
+
+
+		//EmailDto emailDto = entityMapper.convertToDto(email);
+		UserDto userDto = entityMapper.convertToDto(user);
+
+		return userDto;
+//		return  Response.ok().entity(email).build();
 	}
 
 	@GET

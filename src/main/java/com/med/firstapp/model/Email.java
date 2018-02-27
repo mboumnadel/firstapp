@@ -2,10 +2,7 @@ package com.med.firstapp.model;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
+//@XmlRootElement
 public class Email implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +24,7 @@ public class Email implements Serializable {
 		return address;
 	}
 
-	@XmlElement
+	//@XmlElement
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -36,7 +33,7 @@ public class Email implements Serializable {
 		return type;
 	}
 
-	@XmlElement
+	//@XmlElement
 	public void setType(String type) {
 		this.type = type;
 	}
