@@ -1,4 +1,4 @@
-package com.med.firstapp.controller;
+package com.med.firstapp.editor;
 
 import java.beans.PropertyEditorSupport;
 

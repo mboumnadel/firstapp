@@ -2,7 +2,6 @@ package com.med.firstapp.model;
 
 import java.util.Date;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="employees")
-@Cacheable
 public class Employee {
 
 	//Mapping
@@ -34,7 +32,7 @@ public class Employee {
 	//Validation
 	@NotEmpty
 	private String number;
-	
+
 	//Mapping
 	@Column(nullable = false)
 	//Validation
@@ -46,24 +44,24 @@ public class Employee {
 	//Validation
 	@Size(min=3, max=20)
 	private String lastName;
-	
+
 	//Mapping
 	@Column(nullable = false)
 	//Validation
 	@Size(min=2, max=5) @NotEmpty
 	private String extension;
-	
+
 	//Mapping
 	//Validation
 	@Email @NotEmpty
 	private String email;
-	
+
 	//Mapping
 	@ManyToOne(optional=false)
 	@JoinColumn(name="officeId")
 	//Validation
 	private Office office;
-	
+
 	//Mapping
 	@OneToOne(optional=true)
 	@JoinColumn(name="reportsTo")
@@ -76,14 +74,14 @@ public class Employee {
 	//Validation
 	@NotEmpty
 	private String jobTitle;
-	
+
 	//Mapping
 	@Transient
 	//Validation
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	//@Past @NotNull
 	private Date hireDate;
-	
+
 
 	public Integer getId() {
 		return id;
@@ -92,11 +90,11 @@ public class Employee {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public String getNumber() {
 		return number;
 	}
-	
+
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -124,7 +122,7 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public Office getOffice() {
 		return office;
 	}
@@ -136,11 +134,11 @@ public class Employee {
 	public Employee getReportsTo() {
 		return reportsTo;
 	}
-	
+
 	public void setReportsTo(Employee reportsTo) {
 		this.reportsTo = reportsTo;
 	}
-	
+
 	public String getJobTitle() {
 		return jobTitle;
 	}

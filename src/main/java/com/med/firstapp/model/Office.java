@@ -1,6 +1,5 @@
 package com.med.firstapp.model;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="offices")
-@Cacheable
 public class Office {
 
 	//Mapping
@@ -27,7 +25,7 @@ public class Office {
 	@NotEmpty
 	@Size(max = 50)
 	private String city;
-	
+
 	//Mapping
 	@Column(name="phone", nullable = false)
 	//Validation
@@ -40,33 +38,33 @@ public class Office {
 	@NotEmpty
 	@Size(max = 50)
 	private String addressLine1;
-	
+
 	//Mapping
 	@Column(nullable = true)
 	//Validation
 	@Size(max = 50)
 	private String addressLine2;
-	
+
 	//Mapping
 	@Column(nullable = true)
 	//Validation
 	@Size(max = 50)
 	private String state;
-	
+
 	//Mapping
 	@Column(nullable = false)
 	//Validation
 	@NotEmpty
 	@Size(max = 50)
 	private String country;
-	
+
 	//Mapping
 	@Column(nullable = false)
 	//Validation
 	@NotEmpty
 	@Size(max = 15)
 	private String postalCode;
-	
+
 	//Mapping
 	@Column(nullable = false)
 	//Validation
@@ -145,5 +143,5 @@ public class Office {
 	public void setTerritory(String territory) {
 		this.territory = territory;
 	}
-	
+
 }

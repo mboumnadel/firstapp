@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 @Entity
 @Table(name="orders")
 public class Order {
@@ -38,7 +39,7 @@ public class Order {
 	//Validation
 	@NotNull
 	private Date orderDate;
-	
+
 	//Mapping
 	@Column(name="requiredDate", nullable=false)
 	//Validation
@@ -49,18 +50,18 @@ public class Order {
 	@Column(name="shippedDate")
 	//Validation
 	private Date shippedDate;
-	
+
 	//Mapping
 	@Column(name="status", nullable=false)
 	//Validation
 	@NotEmpty @Size(max =17)
 	private String status;
-	
+
 	//Mapping
 	@Column(name="comments")
 	//Validation
 	private String comments;
-	
+
 	//Mapping
 	@ManyToOne(optional=false)
 	@JoinColumn(name="customerId")
@@ -68,10 +69,10 @@ public class Order {
 	@NotNull
 	private Customer customer;
 
-	
+
 	@OneToMany(mappedBy="order", cascade=CascadeType.ALL)
     private List<OrderDetails> orderDetails;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -150,5 +151,5 @@ public class Order {
 				+ ", shippedDate=" + shippedDate + ", status=" + status + ", comments=" + comments + ", customer="
 				+ customer + ", orderDetails=" + "orderDetails" + "]";
 	}
-	
+
 }

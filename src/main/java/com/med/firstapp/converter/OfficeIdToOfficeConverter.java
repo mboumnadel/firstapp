@@ -1,4 +1,4 @@
-package com.med.firstapp.controller;
+package com.med.firstapp.converter;
 
 import org.springframework.core.convert.converter.Converter;
 

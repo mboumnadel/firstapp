@@ -1,4 +1,4 @@
-package com.med.firstapp.controller;
+package com.med.firstapp.formatter;
 
 import java.text.ParseException;
 import java.util.Locale;

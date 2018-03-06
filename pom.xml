@@ -1,341 +1,213 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.med</groupId>
-  <artifactId>firstapp</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>firstapp Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.med</groupId>
+	<artifactId>firstapp</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>firstapp Maven Webapp</name>
+	<url>http://maven.apache.org</url>
 	<properties>
-        <hibernate.validator.version>5.3.4.Final</hibernate.validator.version>
-        <javax.validation.version>1.1.0.Final</javax.validation.version>
-        <apachetiles.version>3.0.7</apachetiles.version>
-         <hibernate.version>5.2.5.Final</hibernate.version>
-<!--          <hibernate.version>4.3.11.Final</hibernate.version> -->
-        <mysql.connector.version>6.0.5</mysql.connector.version>
-        <joda-time.version>2.9.7</joda-time.version>
-        <!-- <jersey2.version>2.25.1</jersey2.version> -->
-        <jersey2.version>2.19</jersey2.version>
-        <jaxrs.version>2.0.1</jaxrs.version>
-        <powermock.version>1.7.1</powermock.version>
-	</properties>  
-  
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>org.springframework</groupId>
-  			<artifactId>spring-framework-bom</artifactId>
-  			<version>4.3.4.RELEASE</version>
-  			<type>pom</type>
-  			<scope>import</scope>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
-
-  <dependencies>
-    <!-- Spring framework -->
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-webmvc</artifactId>
-    </dependency>
-    <dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-aop</artifactId>
-	</dependency>
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-tx</artifactId>
-	</dependency>
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-orm</artifactId>
-	</dependency>
-	<dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-aspects</artifactId>
-	</dependency>
-	
-	
-	
-	
-
-	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
-	<dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-dbcp2</artifactId>
-	    <version>2.1.1</version>
-	</dependency>
-	
-    <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>jstl</artifactId>
-    	<version>1.2</version>
-<!--     	<scope>provided</scope> -->
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-	<dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>javax.servlet-api</artifactId>
-    	<version>3.1.0</version>
-    	<!-- <scope>provided</scope> -->
-	</dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
-	<dependency>
-	    <groupId>javax.servlet.jsp</groupId>
-	    <artifactId>javax.servlet.jsp-api</artifactId>
-	    <version>2.3.1</version>
-	    <!-- <scope>provided</scope> -->
-	</dependency>
-
-    <!-- Apache Tiles -->
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-core</artifactId>
-        <version>${apachetiles.version}</version>
-        <scope>compile</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-api</artifactId>
-        <version>${apachetiles.version}</version>
-        <scope>compile</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-servlet</artifactId>
-        <version>${apachetiles.version}</version>
-        <scope>compile</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.tiles</groupId>
-        <artifactId>tiles-jsp</artifactId>
-        <version>${apachetiles.version}</version>
-        <scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>org.apache.tiles</groupId>
-    	<artifactId>tiles-extras</artifactId>
-    	<version>${apachetiles.version}</version>
-        <scope>compile</scope>
-	</dependency>
-    
-    <!-- Get The most up to date version so Hibernate Jars won't load their this jar  -->
-<!--     <dependency> -->
-<!--     	<groupId>org.jboss.logging</groupId> -->
-<!--     	<artifactId>jboss-logging</artifactId> -->
-<!--     	<version>3.3.0.Final</version> -->
-<!-- 	</dependency> -->
-    
-    
-    <!-- Hibernate -->
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-core</artifactId>
-        <version>${hibernate.version}</version>
-<!--         <exclusions> -->
-<!-- 	        <exclusion> -->
-<!--     	        <groupId>org.jboss.logging</groupId> -->
-<!--         	    <artifactId>jboss-logging</artifactId> -->
-<!--         	</exclusion> -->
-<!--     	</exclusions> -->
-    </dependency>
-    
-    <!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
-    <dependency>
-        <groupId>org.hibernate.common</groupId>
-        <artifactId>hibernate-commons-annotations</artifactId>
-<!--         <version>4.0.2.Final</version> -->
-			<version>5.0.1.Final</version>
-<!--         <version>${hibernate.version}</version> -->
-<!-- 			<exclusions> -->
-<!--     	    	<exclusion> -->
-<!--         		    <groupId>org.jboss.logging</groupId> -->
-<!--             		<artifactId>jboss-logging</artifactId> -->
-<!--         		</exclusion> -->
-<!--     		</exclusions> -->
-    </dependency>
-
-	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
-    <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate.version}</version>
-<!--         <exclusions> -->
-<!-- 	        <exclusion> -->
-<!--         	    <groupId>org.jboss.logging</groupId> -->
-<!--     	        <artifactId>jboss-logging</artifactId> -->
-<!--         	</exclusion> -->
-<!--     	</exclusions> -->
-    </dependency>
-
-
-	<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
-	<!-- <dependency>
-	    <groupId>org.ehcache</groupId>
-	    <artifactId>ehcache</artifactId>
-	    <version>3.3.1</version>
-	</dependency> -->
-
-<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-ehcache</artifactId>
-    <version>${hibernate.version}</version>
-</dependency>
-
-    <!-- MySQL -->
-    <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>${mysql.connector.version}</version>
-    </dependency>
-
-    <!-- Joda-Time -->       
-    <dependency>
-        <groupId>joda-time</groupId>
-        <artifactId>joda-time</artifactId>
-        <version>${joda-time.version}</version>
-    </dependency>
-    
-    
-
-    <!-- validation -->
-    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-	<dependency>
-	    <groupId>org.hibernate</groupId>
-	    <artifactId>hibernate-validator</artifactId>
-	    <version>${hibernate.validator.version}</version>
-<!-- 	    <exclusions> -->
-<!--         	<exclusion> -->
-<!--             	<groupId>org.jboss.logging</groupId> -->
-<!--             	<artifactId>jboss-logging</artifactId> -->
-<!--         	</exclusion> -->
-<!--     	</exclusions> -->
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
-	<dependency>
-	    <groupId>javax.validation</groupId>
-	    <artifactId>validation-api</artifactId>
-	    <version>${javax.validation.version}</version>
-	</dependency>
-
-
-	<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-core</artifactId>
-	    <version>2.7</version>
-	</dependency>
-
-	<dependency>
-	    <groupId>junit</groupId>
-	    <artifactId>junit</artifactId>
-	    <version>4.12</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	
-	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-all</artifactId>
-    <version>2.0.2-beta</version>
-    <scope>test</scope>
-</dependency>
-	
-	
-<!-- 	<dependency> -->
-<!--       <groupId>org.powermock</groupId> -->
-<!--       <artifactId>powermock-module-junit4</artifactId> -->
-<!--       <version>${powermock.version}</version> -->
-<!--       <scope>test</scope> -->
-<!--    </dependency> -->
-<!--    <dependency> -->
-<!--       <groupId>org.powermock</groupId> -->
-<!--       <artifactId>powermock-api-mockito2</artifactId> -->
-<!--       <version>${powermock.version}</version> -->
-<!--       <scope>test</scope> -->
-<!--    </dependency> -->
-
-<!-- 	<dependency> -->
-<!-- 	    <groupId>org.mockito</groupId> -->
-<!-- 	    <artifactId>mockito-core</artifactId> -->
-<!-- 	    <version>2.15.0</version> -->
-<!-- 	    <scope>test</scope> -->
-<!-- 	</dependency> -->
-
-
-
+		<hibernate.validator.version>5.3.4.Final</hibernate.validator.version>
+		<javax.validation.version>1.1.0.Final</javax.validation.version>
+		<apachetiles.version>3.0.7</apachetiles.version>
+		<hibernate.version>5.2.5.Final</hibernate.version>
+		<mysql.connector.version>6.0.5</mysql.connector.version>
+		<joda-time.version>2.9.7</joda-time.version>
+		<jersey2.version>2.19</jersey2.version>
+		<jaxrs.version>2.0.1</jaxrs.version>
+		<powermock.version>1.7.1</powermock.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>4.3.4.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<!-- Spring framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<!-- Server Infrastructure -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-core</artifactId>
+			<version>${apachetiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-api</artifactId>
+			<version>${apachetiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-servlet</artifactId>
+			<version>${apachetiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${apachetiles.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-extras</artifactId>
+			<version>${apachetiles.version}</version>
+		</dependency>
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
+		</dependency>
+		<!-- validation -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${javax.validation.version}</version>
+		</dependency>
+		<!-- MySQL -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.connector.version}</version>
+		</dependency>
+		<!-- Joda-Time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>2.0.2-beta</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- JAX-RS -->
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>${jaxrs.version}</version>
-        </dependency>
-	
-	  <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <version>${jersey2.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${jersey2.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jersey2.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>${jaxrs.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>${jersey2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey2.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey2.version}</version>
 		</dependency>
-		
 		<dependency>
-        <groupId>org.glassfish.jersey.ext</groupId>
-        <artifactId>jersey-declarative-linking</artifactId>
-        <version>${jersey2.version}</version>
-    </dependency>
-        
-    
-
-  </dependencies>
-
-  <build>
-    <finalName>firstapp</finalName>
-    
-    
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-    
-  </build>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-declarative-linking</artifactId>
+			<version>${jersey2.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>firstapp</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.med.firstapp.editor.EmployeeEditor;
+import com.med.firstapp.editor.OfficeEditor;
 import com.med.firstapp.model.Employee;
 import com.med.firstapp.model.Office;
 import com.med.firstapp.service.EmployeeService;
@@ -26,33 +28,24 @@ import com.med.firstapp.service.OfficeService;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-	private static int counter = 0;
-
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@Autowired
 	private OfficeService officeService;
-	
-	//private String message;
 
-	
-	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
-	    
+
+		System.out.println("**** initBinder ***");
+
 	    ///binder.setConversionService(conversionService);
 	    //binder.addCustomFormatter(new OfficeFormatter(officeService));
-		
-		System.out.println("**** initBinder ***");
-		
+
 		binder.registerCustomEditor(Office.class, new OfficeEditor(officeService));
 		binder.registerCustomEditor(Employee.class, new EmployeeEditor(employeeService));
-	    
-	    
 	}
-	
-	
+
 	@ModelAttribute
 	public void getJobTitles(Model model){
 		List<String> jobTitles = new ArrayList<>();
@@ -63,17 +56,16 @@ public class EmployeeController {
 
 		model.addAttribute("jobTitles", jobTitles);
 	}
-	
+
 	@RequestMapping(value = {"", "/", "list"}, method = RequestMethod.GET)
 	public String listEmployees(ModelMap model) {
-		
+
 		List<Employee> findAllEmployees = employeeService.findAll();
-		//List<Employee> findAllEmployees = new ArrayList<>();
 
         model.addAttribute("employees", findAllEmployees);
-		
+
 		return "employee-list";
-		
+
 	}
 
 	@RequestMapping(value = {"/new"}, method = RequestMethod.GET)
@@ -83,24 +75,18 @@ public class EmployeeController {
         model.addAttribute("employee", employee);
         List<Office> offices = officeService.findAll();
         List<Employee> employees = employeeService.findAll();
-        
-        
+
         model.addAttribute("offices", offices);
         model.addAttribute("employees", employees);
 
 		return "employee-edit";
 	}
-	
+
 	@RequestMapping(value = {"/edit/{id}"}, method = RequestMethod.GET)
 	public String editEmployee(@PathVariable int id, ModelMap model) {
-		
-		System.out.println("** inside editEmployee controller 1**");
+
 		Employee employee = employeeService.findById(id);
-		System.out.println("** inside editEmployee controller 2**");
-		employee = employeeService.findById(id);
-		System.out.println("** inside editEmployee controller 3**");
-		
-		
+
         model.addAttribute("employee", employee);
 
         List<Office> offices = officeService.findAll();
@@ -109,8 +95,6 @@ public class EmployeeController {
         List<Employee> employees = employeeService.findAll();
         model.addAttribute("employees", employees);
 
-        System.out.println("** inside editEmployee **");
-        
 		return "employee-edit";
 	}
 
@@ -130,52 +114,11 @@ public class EmployeeController {
         	return "employee-edit";
         }
 
-       //employeeService.saveOrUpdateEmployee(employee);
        employeeService.merge(employee);
-        
 
         model.addAttribute("saveEmployeeStatus", true);
         return "employee-edit";
     }
-	
-	@RequestMapping(value = {"/oldlist"}, method = RequestMethod.GET)
-	public String list(ModelMap model) {
 
-		ArrayList<Employee> employees = new ArrayList<>();
-		Employee e1 = new Employee();
-		e1.setEmail("employee1@company.com");
-		e1.setExtension("x1000");
-		e1.setFirstName("Employee First 1");
-		e1.setJobTitle("Manager");
-		e1.setLastName("Employee Name 1");
-		e1.setNumber("0001");
-		
-		Employee e2 = new Employee();
-		e2.setEmail("employee2@company.com");
-		e2.setExtension("x2000");
-		e2.setFirstName("Employee First 2");
-		e2.setJobTitle("Accountant");
-		e2.setLastName("Employee Name 2");
-		e2.setNumber("0002");
-		
-		employees.add(e1);
-		employees.add(e2);
-		
-
-
-        model.addAttribute("employees", employees);
-		
-		return "employee-list";
-	}
-
-	@RequestMapping(value = "/AAA/**", method = RequestMethod.GET)
-	public String catchall(ModelMap model) {
-
-		model.addAttribute("message", "employee /AAA/** : ");
-		model.addAttribute("counter", ++counter);
-		return "base";
-
-	}
-	
 }
 

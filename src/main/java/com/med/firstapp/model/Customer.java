@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,13 +34,13 @@ public class Customer {
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String name;
-	
+
 	//Mapping
 	@Column(name="contactLastName", nullable=false)
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String contactCastName;
-	
+
 	//Mapping
 	@Column(name="contactFirstName", nullable=false)
 	//Validation
@@ -53,14 +52,14 @@ public class Customer {
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String phoneNumber;
-	
+
 	//Mapping
 	@Column(name="addressLine1", nullable=false)
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String addressLine1;
-	
-	
+
+
 	//Mapping
 	@Column(name="addressLine2")
 	//Validation
@@ -72,25 +71,25 @@ public class Customer {
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String city;
-	
+
 	//Mapping
 	@Column(name="state")
 	//Validation
 	@Size(max = 50)
 	private String state;
-	
+
 	//Mapping
 	@Column(name="postalCode")
 	//Validation
 	@Size(max = 15)
 	private String postalCode;
-	
+
 	//Mapping
 	@Column(name="country", nullable=false)
 	//Validation
 	@NotEmpty @Size(max = 50)
 	private String country;
-	
+
 	//Mapping
 	@ManyToOne(optional=true)
 	@JoinColumn(name="salesRepEmployeeId")
