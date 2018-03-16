@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-        </Console>
-<!--         <File name="MyFile" fileName="all.log" immediateFlush="true" append="false"> -->
-<!--             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/> -->
-<!--         </File> -->
-    </Appenders>
-    <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="Console" />
-<!--             <AppenderRef ref="MyFile"/> -->
-        </Root>
-        
-        
-<!--         <Logger name="org.hibernate" level="debug"/> -->
-<!--         <logger name="org.hibernate.SQL" level="DEBUG" additivity="false"> -->
-<!--             <AppenderRef ref="Console" /> -->
-<!--         </logger> -->
-<!--         <logger name="org.hibernate.type" level="TRACE" additivity="false"> -->
-<!--             <AppenderRef ref="Console" /> -->
-<!--         </logger> -->
-        
-    </Loggers>
+	<Appenders>
+<!-- 		<Console name="Console" target="SYSTEM_OUT"> -->
+<!-- 			<PatternLayout pattern=" WW %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" /> -->
+<!-- 		</Console> -->
+
+		<Console name="Console2" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<Filters>	
+				<RegexFilter regex=".*(begin|commit|rolling).*" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		</Console>
+
+		<!-- <File name="MyFile" fileName="all.log" immediateFlush="true" append="false"> -->
+		<!-- <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/> -->
+		<!-- </File> -->
+	</Appenders>
+	<Loggers>
+		<Root level="WARN">
+			<AppenderRef ref="Console2" />
+			<!-- <AppenderRef ref="MyFile"/> -->
+		</Root>
+		<Logger name="org.hibernate" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console2" />
+		</Logger>
+		<Logger name="org.abc" level="${org.abc.level}"/>
+
+		<!-- <Logger name="org.hibernate" level="debug"/> -->
+		<!-- <logger name="org.hibernate.SQL" level="DEBUG" additivity="false"> -->
+		<!-- <AppenderRef ref="Console" /> -->
+		<!-- </logger> -->
+		<!-- <logger name="org.hibernate.type" level="TRACE" additivity="false"> -->
+		<!-- <AppenderRef ref="Console" /> -->
+		<!-- </logger> -->
+	</Loggers>
 </Configuration>
+<!--
+LEVEL ORDER
+ALL TRACE DEBUG INFO WARN ERROR FATAL OFF
+ -->
+ <!--
+Since version 4.0, Hibernate has used the JBoss Logging library for its logging needs.
+Like SLF4J and Jakarta’s commons-logging, JBoss Logging is a "logging bridge" providing integration with numerous logging frameworks.
+ 
+JBoss Logging understands the following back-ends as first-class citizens:
+	JBoss LogManager (mainly used only inside the WildFly app server), Log4j 2, Log4j 1, Slf4j, JDK logging
+
+To use JBoss Logging with Slf4j, the slf4j-api jar would also need to be available on the classpath plus any needed slf4j backend.
+
+org.hibernate.SQL
+org.hibernate.type.descriptor.sql
+org.hibernate.tool.hbm2ddl
+org.hibernate.pretty
+org.hibernate.cache
+org.hibernate.hql.internal.ast.AST
+org.hibernate
+
+  -->
+  
+ <!-- 
+SLF4J is a cleaner dependency and more efficient at runtime than commons-logging because it uses compile-time bindings instead of runtime discovery of the other logging frameworks it integrates. 
+  -->
