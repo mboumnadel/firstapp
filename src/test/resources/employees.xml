@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+	<employees
+		id= "49"
+		employeeNumber= "9908"
+		lastName= "Boumnadel"
+		firstName= "abc"
+		extension= "x9908"
+		email= "med@gmail.com"
+		officeId= "1"
+		reportsTo= "2"
+		jobTitle= "Programmer from dbunit test resource"
+	/>
+</dataset>

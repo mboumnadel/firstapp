@@ -71,4 +71,9 @@ public class Vehicle {
 		this.model = model;
 	}
 
+	@Override
+	public String toString() {
+		return "Vehicle [id=" + id + ", year=" + year + ", make=" + make + ", model=" + model + "]";
+	}
+
 }

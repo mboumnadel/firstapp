@@ -21,6 +21,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 
 import org.junit.Assert;
@@ -33,18 +35,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.med.firstapp.model.Employee;
 import com.med.firstapp.model.Order;
+import com.med.firstapp.model.Vehicle;
 import com.med.firstapp.service.DummyBean;
 import com.med.firstapp.service.DummyService;
 import com.med.firstapp.service.EmployeeService;
+import com.med.firstapp.service.VehicleService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -56,7 +70,7 @@ import com.med.firstapp.service.EmployeeService;
 @ContextConfiguration(locations = {
 		"file:src/main/webapp/WEB-INF/applicationContext.xml",
 		"file:src/main/webapp/WEB-INF/applicationContext-test.xml",
-		"file:src/main/webapp/WEB-INF/applicationContext-persistence.xml",
+		"file:src/main/webapp/WEB-INF/applicationContext-persistence-test.xml",
 		"file:src/main/webapp/WEB-INF/applicationContext-web.xml"
 		})
 
@@ -64,12 +78,39 @@ import com.med.firstapp.service.EmployeeService;
 @WebAppConfiguration // will load WebApplicationContext
 //we load WebApplicationContext and MockServletContext using the @WebAppConfiguration annotation and inject their instances using @Autowired.
 
-public class TestControllerTest {
+
+@TestExecutionListeners(
+	//listeners = { DbUnitTestExecutionListener.class },
+	listeners = {
+				  ServletTestExecutionListener.class
+				, DirtiesContextBeforeModesTestExecutionListener.class
+				, DependencyInjectionTestExecutionListener.class
+				, DirtiesContextTestExecutionListener.class
+				//, TransactionalTestExecutionListener.class
+				, SqlScriptsTestExecutionListener.class
+				,TransactionDbUnitTestExecutionListener.class
+				}
+			// , mergeMode = MergeMode.MERGE_WITH_DEFAULTS
+)
+
+
+
+
+
+
+//@DbUnitConfiguration(databaseConnection={"dataSource"})
+
+//@Transactional
+//@Rollback
+public class ITTestControllerTest {
 
 	private MockMvc mockMvc;
 
     //@Autowired
     //private TodoService todoServiceMock;
+
+	@PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private WebApplicationContext wac;
@@ -87,16 +128,58 @@ public class TestControllerTest {
     @Autowired
 	private EmployeeService employeeService;
 
+    @Autowired
+	private VehicleService vehicleService;
+
     @Before
     public void setUp() {
-
        // Mockito.reset(todoServiceMock);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-
     @Test
+    @DatabaseSetup("/vehicles.xml")
+    @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED, value = "/expected_vehicles.xml")
+	public void testSaveVehicle() throws UnsupportedEncodingException, Exception {
+
+    	System.out.println("---------- testSaveVehicle @TEST ---------");
+
+    	int vehicleId = 2;
+    	Vehicle vehicle = vehicleService.findById(vehicleId);
+		System.out.println("vehicle.toString() @TEST : " + vehicle.toString());
+
+		String model = vehicle.getModel() + " TEST";
+		vehicle.setModel(model);
+
+		System.out.println("before calling mockmvc @TEST ");
+
+		mockMvc.perform(
+				post("/test/testSaveVehicle")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("id", String.valueOf(vehicle.getId()))
+				.param("make", String.valueOf(vehicle.getMake()))
+				.param("model", String.valueOf(vehicle.getModel()))
+				.param("year", String.valueOf(vehicle.getYear()))
+
+			)
+			.andExpect(model().hasNoErrors())
+
+			.andExpect(model().attribute("vehicle",
+					allOf(
+							hasProperty("id", equalTo(vehicleId)),
+							hasProperty("model", equalTo(model))
+					)
+			))
+			;
+
+		System.out.println("after calling mockmvc @TEST ");
+    }
+
+
+    @Ignore
+    @Test
+    //@ExpectedDatabase("employees.xml")
 	public void testEmployeeSave() throws UnsupportedEncodingException, Exception {
 
     	long threadId = Thread.currentThread().getId();
@@ -106,8 +189,20 @@ public class TestControllerTest {
 
     	int employeeId = 49;
 		Employee employee = employeeService.findById(employeeId);
+
+		System.out.println("employee.toString(): " + employee.toString());
+
 		String name = "mohamed test";
 		employee.setFirstName(name);
+
+		try
+		{
+		    Thread.sleep(10 * 1000);
+		}
+		catch(InterruptedException ex)
+		{
+		    Thread.currentThread().interrupt();
+		}
 
 		mockMvc.perform(
 				post("/employee/save")
@@ -134,8 +229,19 @@ public class TestControllerTest {
 					)
 			))
 			;
+		try
+		{
+		    Thread.sleep(10 * 1000);
+		}
+		catch(InterruptedException ex)
+		{
+		    Thread.currentThread().interrupt();
+		}
     }
 
+
+
+    @Ignore
     @Test
 	public void testDummyService_SpyShouldReturnDefinedValue() throws UnsupportedEncodingException, Exception {
 
@@ -159,6 +265,7 @@ public class TestControllerTest {
     }
 
 
+    @Ignore
     @Test
 	public void testDummyBean_MockShouldReturnDefinedValue() throws UnsupportedEncodingException, Exception {
 
@@ -180,6 +287,7 @@ public class TestControllerTest {
 
     }
 
+    @Ignore
     @Test
     public void testOrderSearch_ShouldReturnOrderSearchViewAndEmptyOrder() throws Exception{
 
@@ -209,6 +317,7 @@ public class TestControllerTest {
 
     }
 
+    @Ignore
 	@Test
 	public void testEditOrder_ShouldReturnAnOrderAndCustomers() throws Exception {
 
@@ -230,6 +339,7 @@ public class TestControllerTest {
 
     }
 
+	@Ignore
 	@Test
 	public void testSaveOrder_OrderValidatoinShouldFail() throws Exception{
 

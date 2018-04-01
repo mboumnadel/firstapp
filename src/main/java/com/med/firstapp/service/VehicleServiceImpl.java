@@ -19,30 +19,42 @@ public class VehicleServiceImpl implements VehicleService {
 
 
 	@Override
+	@Transactional
 	public Vehicle findById(int id) {
 		return dao.findById(id);
 	}
 
 
 	@Override
+	@Transactional
 	public void persist(Vehicle vehicle) {
 		dao.persist(vehicle);
 
 	}
 
 	@Override
+	@Transactional
 	public Vehicle merge(Vehicle vehicle) {
-		return dao.merge(vehicle);
+		System.out.println("===== just before calling dao.merge ");
+
+		Vehicle vehicle2 = dao.merge(vehicle);
+
+		System.out.println("===== just after calling dao.merge ");
+
+
+		return vehicle2;
 	}
 
 
 	@Override
+	@Transactional
 	public void remove(Vehicle vehicle) {
 		dao.remove(vehicle);
 	}
 
 
 	@Override
+	@Transactional
 	public List<Vehicle> findAll() {
 		return dao.findAll();
 	}

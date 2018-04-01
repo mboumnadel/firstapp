@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.med.firstapp.model.Customer;
 import com.med.firstapp.model.Order;
+import com.med.firstapp.model.Vehicle;
 import com.med.firstapp.service.CustomerService;
 import com.med.firstapp.service.DummyBean;
 import com.med.firstapp.service.DummyService;
@@ -120,6 +121,26 @@ public class TestController {
 		System.out.println("------- testSaveOrder end ------");
 
 		return "order-edit";
+	}
+
+	@RequestMapping(value = "testSaveVehicle", method = RequestMethod.POST)
+	public String testSaveVehicle(@Valid  @ModelAttribute(value = "vehicle") Vehicle vehicle, BindingResult result,  Model model){
+
+		if (result.hasErrors()) {
+			System.out.println("-------- testSaveVehicle error -------");
+			List<ObjectError> errors = result.getAllErrors();
+			for(ObjectError error :errors){
+				System.out.println(error.toString());
+			}
+			return "test_trans";
+		}
+
+		System.out.println("------- testSaveVehicle start ------");
+		System.out.println("vehicle.toString() " + vehicle.toString());
+		vehicleService.merge(vehicle);
+		System.out.println("------- testSaveVehicle end ------");
+
+		return "test_trans";
 	}
 
 	@RequestMapping(value = {"/testTrans/1"})
