@@ -39,6 +39,10 @@ public class Vehicle {
 	@NotEmpty @Size(max = 50)
 	private String model;
 
+	public Vehicle(){
+
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <vehicle id="190" year="2012" make="Acura" model="ZDX"/>
+  <vehicle id="191" year="2012" make="Acura" model="MDX"/>
+  <vehicle id="192" year="2012" make="Acura" model="TSX"/>
+  <vehicle id="193" year="2012" make="Acura" model="TL"/>
+  <vehicle id="194" year="2012" make="Acura" model="RL"/>
+  <vehicle id="195" year="2012" make="Acura" model="RDX"/>
+
+  <vehicle id="221" year="2012" make="Aston Martin" model="DBS"/>
+  <vehicle id="222" year="2012" make="Aston Martin" model="DB9"/>
+  <vehicle id="223" year="2012" make="Aston Martin" model="V12 Vantage"/>
+  <vehicle id="226" year="2012" make="Aston Martin" model="Rapide"/>
+</dataset>

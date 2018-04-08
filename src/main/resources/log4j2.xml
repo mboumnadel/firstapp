@@ -8,7 +8,7 @@
 		<Console name="Console2" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
 			<Filters>	
-				<RegexFilter regex=".*(begin|commit|rolling).*" onMatch="ACCEPT" onMismatch="DENY"/>
+				<RegexFilter regex=".*(begin|commit|rolling|select|insert|update|delete).*" onMatch="ACCEPT" onMismatch="DENY"/>
 			</Filters>
 		</Console>
 
@@ -21,7 +21,15 @@
 			<AppenderRef ref="Console2" />
 			<!-- <AppenderRef ref="MyFile"/> -->
 		</Root>
-		<Logger name="org.hibernate" level="DEBUG" additivity="false">
+		<Logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console2" />
+		</Logger>
+
+<!-- 		<Logger name="org.hibernate.type" level="TRACE" additivity="false"> -->
+<!-- 			<AppenderRef ref="Console2" /> -->
+<!-- 		</Logger> -->
+ 
+		<Logger name="org.hibernate.engine.transaction" level="DEBUG" additivity="false">
 			<AppenderRef ref="Console2" />
 		</Logger>
 		<Logger name="org.abc" level="${org.abc.level}"/>

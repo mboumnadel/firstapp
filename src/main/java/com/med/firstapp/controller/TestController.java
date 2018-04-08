@@ -1,5 +1,6 @@
 package com.med.firstapp.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.med.firstapp.dao.VehicleRepository;
 import com.med.firstapp.model.Customer;
 import com.med.firstapp.model.Order;
 import com.med.firstapp.model.Vehicle;
@@ -38,6 +43,9 @@ public class TestController {
 	//http://blog.jhades.org/how-does-spring-transactional-really-work/
 	//http://blog.jhades.org/setup-and-gotchas-of-the-hibernate-second-level-and-query-caches/
 	//http://www.baeldung.com/spring-requestmapping
+
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
 	@Autowired
 	private VehicleService vehicleService;
@@ -214,6 +222,26 @@ public class TestController {
 		ownerService.testTransTwoDaos();
 
 		System.out.println("---- End testTransTwoDaos TestController");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testGetVehicles"}, method = RequestMethod.GET)
+	public String testGetVehicles(@PageableDefault(size = 10, page = 1) Pageable pageable, ModelMap model) throws IOException {
+
+		//?page=2&size=3&sort=make&sort=model,asc
+
+    	Page<Vehicle> thepage = vehicleRepository.findAll(pageable);
+
+        System.out.println(" getSize " + thepage.getSize());
+        System.out.println(" getNumber " + thepage.getNumber());
+        System.out.println(" getNumberOfElements " + thepage.getNumberOfElements());
+        System.out.println(" getTotalElements " + thepage.getTotalElements());
+        System.out.println(" getTotalPages " + thepage.getTotalPages());
+
+        thepage.forEach(System.out::println);
+
+        model.addAttribute("vehicles", thepage.getContent());
 
 		return "test_trans";
 	}

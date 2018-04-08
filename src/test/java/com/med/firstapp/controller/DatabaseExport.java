@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.QueryDataSet;
-import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
 public class DatabaseExport {
@@ -15,16 +14,16 @@ public class DatabaseExport {
     public static void main(String[] args) throws Exception
     {
         // database connection
-        Class driverClass = Class.forName("com.mysql.jdbc.Driver");
+        Class driverClass = Class.forName("org.mariadb.jdbc.Driver");
 
-        Connection jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/classicmodels", "root", "");
+        Connection jdbcConnection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/classicmodels", "root", "");
         IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
 
         // partial database export
         QueryDataSet partialDataSet = new QueryDataSet(connection);
-        partialDataSet.addTable("vehicle", "SELECT * FROM vehicle WHERE id='191'");
+        partialDataSet.addTable("vehicle", "SELECT * FROM vehicle LIMIT 10 ");
         //partialDataSet.addTable("vehicle");
-        FlatXmlDataSet.write(partialDataSet, new FileOutputStream("partial.xml"));
+        FlatXmlDataSet.write(partialDataSet, new FileOutputStream("vehicle-first-10.xml"));
 
         // full database export
         /*
@@ -42,7 +41,7 @@ public class DatabaseExport {
 
 
         // write DTD file
-        FlatDtdDataSet.write(partialDataSet, new FileOutputStream("partial.dtd"));
+        //FlatDtdDataSet.write(partialDataSet, new FileOutputStream("partial.dtd"));
 
     }
 }

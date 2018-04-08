@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,8 +35,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
@@ -45,6 +53,7 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -52,13 +61,18 @@ import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import com.med.firstapp.dao.VehiclePredicates;
+import com.med.firstapp.dao.VehicleRepository;
+import com.med.firstapp.dao.VehicleSpecifications;
 import com.med.firstapp.model.Employee;
 import com.med.firstapp.model.Order;
+import com.med.firstapp.model.QVehicle;
 import com.med.firstapp.model.Vehicle;
 import com.med.firstapp.service.DummyBean;
 import com.med.firstapp.service.DummyService;
 import com.med.firstapp.service.EmployeeService;
 import com.med.firstapp.service.VehicleService;
+import com.querydsl.core.types.OrderSpecifier;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -131,11 +145,194 @@ public class ITTestControllerTest {
     @Autowired
 	private VehicleService vehicleService;
 
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
+
     @Before
     public void setUp() {
        // Mockito.reset(todoServiceMock);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+
+    @Test
+    @DatabaseSetup("/vehicle-first-10.xml")
+	public void testGetVehicles() throws UnsupportedEncodingException, Exception {
+
+    	System.out.println("---------- testGetVehicles @TEST ---------");
+
+    	mockMvc.perform(
+				get("/test/testGetVehicles")///?page=0&size=5&sort=make&sort=model,asc
+				.param("page", "0")
+				.param("size", "5")
+				.param("sort", "make")
+				.param("sort", "model,asc")
+			)
+			.andExpect(model().attribute("vehicles", hasSize(5)))
+			.andDo(print())
+			;
+
+    		//.andReturn().getModelAndView().getModel().get("vehicles")
+
+		System.out.println("after calling mockmvc @TEST ");
+    }
+
+    @Test
+    @DatabaseSetup("/vehicle-first-10.xml")
+	public void testGetVehicleJPA_VehiclePredicates() throws UnsupportedEncodingException, Exception {
+    	System.out.println("---------- testGetVehicleJPA JpaSpecificationExecutor @TEST start ---------");
+
+    	System.out.println("before findAll(VehiclePredicates.hasMake(Acura)) ");
+    	Iterable<Vehicle> list = vehicleRepository.findAll(VehiclePredicates.hasMake("Acura"));
+    	list.forEach(System.out::println);
+
+    	System.out.println("before findAll(VehiclePredicates.hasModel(RDX)) ");
+    	Iterable<Vehicle> list2 = vehicleRepository.findAll(VehiclePredicates.hasModel("RDX"));
+    	list2.forEach(System.out::println);
+
+    	System.out.println("before findAll(VehiclePredicates.makeIsAndModelIsNot(Acura, RDX)) ");
+    	Iterable<Vehicle> list3 = vehicleRepository.findAll(VehiclePredicates.makeIsAndModelIsNot("Acura", "RDX"));
+    	list3.forEach(System.out::println);
+
+    	OrderSpecifier<String> orderSpecifier = QVehicle.vehicle.model.desc();
+    	System.out.println("before findAll(VehiclePredicates.makeIsAndModelIsNot(Acura, RDX)) ");
+    	Iterable<Vehicle> list4 = vehicleRepository.findAll(VehiclePredicates.makeIsAndModelIsNot("Acura", "RDX"), orderSpecifier);
+    	list4.forEach(System.out::println);
+
+    	System.out.println("---------- testGetVehicleJPA JpaSpecificationExecutor @TEST end ---------");
+    }
+
+    @Test
+    @DatabaseSetup("/vehicle-first-10.xml")
+	public void testGetVehicleJPA_QueryDsl_JpaSpecificationExecutor() throws UnsupportedEncodingException, Exception {
+
+    	System.out.println("---------- testGetVehicleJPA JpaSpecificationExecutor @TEST start ---------");
+
+    	System.out.println("before findAll(VehicleSpecifications.hasMake(Acura)) ");
+    	List<Vehicle> list = vehicleRepository.findAll(VehicleSpecifications.hasMake("Acura"));
+    	list.stream().forEach(System.out::println);
+
+    	System.out.println("before findAll(VehicleSpecifications.hasModel(RDX)) ");
+    	List<Vehicle> list2 = vehicleRepository.findAll(VehicleSpecifications.hasModel("RDX"));
+    	list2.stream().forEach(System.out::println);
+
+    	System.out.println("before findAll(VehicleSpecifications.makeIsAndModelIsNot(Acura, RDX)) ");
+    	List<Vehicle> list3 = vehicleRepository.findAll(VehicleSpecifications.makeIsAndModelIsNot("Acura", "RDX"));
+    	list3.stream().forEach(System.out::println);
+
+    	Sort sort = new Sort(new Sort.Order(Direction.DESC, "model"));
+    	System.out.println("before findAll(VehicleSpecifications.makeIsAndModelIsNot(Acura, RDX, sort)) ");
+    	List<Vehicle> list4 = vehicleRepository.findAll(VehicleSpecifications.makeIsAndModelIsNot("Acura", "RDX"), sort);
+    	list4.stream().forEach(System.out::println);
+
+
+    	PageRequest pageRequest = new PageRequest(2, 2, sort);
+    	System.out.println("before findAll(VehicleSpecifications.hasMake(Acura)),pageRequest ");
+    	Page<Vehicle> page = vehicleRepository.findAll(VehicleSpecifications.hasMake("Acura"), pageRequest);
+    	page.forEach(System.out::println);
+
+    	System.out.println("---------- testGetVehicleJPA JpaSpecificationExecutor @TEST end ---------");
+    }
+
+    @Test
+    @DatabaseSetup("/vehicle-first-10.xml")
+	public void testGetVehicleJPA_Sort_Paginatoin() throws UnsupportedEncodingException, Exception {
+    	System.out.println("---------- testGetVehicleJPA Sort_Paginatoin @TEST start ---------");
+
+    	Sort sort = new Sort(new Sort.Order(Direction.ASC, "model"));
+    	System.out.println("before findAll(sort) ");
+    	List<Vehicle> list = vehicleRepository.findAll(sort);
+    	list.stream().forEach(System.out::println);
+
+
+
+    	Sort sort2 = new Sort(Sort.Direction.DESC, "make").and(new Sort(Sort.Direction.ASC, "model"));
+    	System.out.println("before findByMake(Acura, sort) ");
+    	List<Vehicle> list2 = vehicleRepository.findByMake("Acura", sort2);
+    	list2.stream().forEach(System.out::println);
+
+    	Sort sort3 = new Sort(Sort.Direction.DESC, "make").and(new Sort(Sort.Direction.DESC, "model"));
+    	System.out.println("before findByMakeAndYear(Acura, 2012, sort) ");
+    	List<Vehicle> list3 = vehicleRepository.findByMakeAndYear("Acura", 2012, sort3);
+    	list3.stream().forEach(System.out::println);
+
+    	PageRequest pageRequest = new PageRequest(1, 3, sort3);
+    	System.out.println("before findAll(pageRequest) ");
+    	Page<Vehicle> page = vehicleRepository.findAll(pageRequest);
+    	page.forEach(System.out::println);
+
+    	PageRequest pageRequest2 = new PageRequest(2, 2, sort3);
+    	System.out.println("before findAll(pageRequest) ");
+    	List<Vehicle> list4 = vehicleRepository.findByMakeAndYear("Acura", 2012, pageRequest2);
+    	list4.stream().forEach(System.out::println);
+
+    	System.out.println("---------- testGetVehicleJPA Sort_Paginatoin @TEST end ---------");
+    }
+
+    @Test
+    @DatabaseSetup("/vehicles.xml")
+	public void testGetVehicleJPA_NoTrans() throws UnsupportedEncodingException, Exception {
+
+    	System.out.println("---------- testGetVehicleJPA NoTrans @TEST start ---------");
+
+    	Vehicle vehicle = vehicleRepository.findById(2);
+
+    	if(vehicle != null){ System.out.println("findById(2) is: " + vehicle.toString()); }
+    	else { System.out.println("findById(2) not found "); }
+
+    	vehicle.setMake("ABCDEF");
+
+
+    	System.out.println("before delete(1) ");
+    	vehicleRepository.delete(1);
+
+    	System.out.println("before delete(2) ");
+    	vehicleRepository.delete(2);
+
+
+    	System.out.println("before updateMake ");
+    	Integer count = vehicleRepository.updateMake(2, "Hatch");
+    	System.out.println("count is " + count);
+
+
+    	System.out.println("before findAll() ");
+    	List<Vehicle> list = vehicleRepository.findAll(); // Will NOT refresh vehicle id 2
+
+    	if(list != null){ System.out.println("list is: " + list.toString()); }
+    	else { System.out.println("list not found "); }
+
+    	System.out.println("---------- testGetVehicleJPA NoTrans @TEST end ---------");
+    }
+
+    @Test
+    @Transactional
+    @DatabaseSetup("/vehicles.xml")
+    @Rollback(value=false)
+	public void testGetVehicleJPA() throws UnsupportedEncodingException, Exception {
+
+    	System.out.println("---------- testGetVehicleJPA  @TEST start ---------");
+
+    	Vehicle vehicle = vehicleRepository.findById(2);
+
+    	if(vehicle != null){ System.out.println("findById(2) is: " + vehicle.toString()); }
+    	else { System.out.println("findById(2) not found "); }
+
+    	vehicle.setMake("ABCDEF");
+
+    	Integer count = vehicleRepository.updateMake(2, "Hatch");
+    	System.out.println("count is " + count);
+
+    	List<Vehicle> list = vehicleRepository.findAll(); // Will NOT refresh vehicle id 2
+
+    	if(list != null){ System.out.println("list is: " + list.toString()); }
+    	else { System.out.println("list not found "); }
+
+
+    	assertThat(vehicle.getMake(), equalTo("ABCDEF"));
+
+    	System.out.println("---------- testGetVehicleJPA  @TEST end ---------");
     }
 
     @Test
@@ -145,7 +342,7 @@ public class ITTestControllerTest {
 
     	System.out.println("---------- testSaveVehicle @TEST ---------");
 
-    	int vehicleId = 2;
+    	int vehicleId = 1;
     	Vehicle vehicle = vehicleService.findById(vehicleId);
 		System.out.println("vehicle.toString() @TEST : " + vehicle.toString());
 
