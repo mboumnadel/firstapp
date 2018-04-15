@@ -159,6 +159,25 @@ public class ITTestControllerTest {
 
     @Test
     @DatabaseSetup("/vehicle-first-10.xml")
+    public void test_VehicleRepositoryImpl() throws UnsupportedEncodingException, Exception {
+    	System.out.println("---------- testtest_VehicleRepositoryImpl @TEST ---------");
+
+    	Integer id = 190;
+
+    	Vehicle vehicle1 = vehicleRepository.findByIdUsingJpa(id);
+    	System.out.println("vehicle1 " + vehicle1);
+
+    	Vehicle vehicle2 = vehicleRepository.findByIdUsingJpaCriteria(id);
+    	System.out.println("vehicle2 " + vehicle2);
+
+    	Vehicle vehicle3 = vehicleRepository.findByIdUsingJpaQuerydsl(id);
+    	System.out.println("vehicle3 " + vehicle3);
+
+    	System.out.println("---------- test_VehicleRepositoryImpl @TEST ---------");
+    }
+
+    @Test
+    @DatabaseSetup("/vehicle-first-10.xml")
 	public void testGetVehicles() throws UnsupportedEncodingException, Exception {
 
     	System.out.println("---------- testGetVehicles @TEST ---------");

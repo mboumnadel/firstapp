@@ -6,4 +6,9 @@ public interface VehicleRepositoryCustom {
 
 	public void refresh(Vehicle vehicle);
 
+	public Vehicle findByIdUsingJpa(Integer id);
+	public Vehicle findByIdUsingJpaCriteria(Integer id);
+
+	public Vehicle findByIdUsingJpaQuerydsl(Integer id);
+
 }
