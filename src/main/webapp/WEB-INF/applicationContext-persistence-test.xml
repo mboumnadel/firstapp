@@ -70,4 +70,12 @@
 
 	<jpa:repositories base-package="com.med.firstapp.dao" transaction-manager-ref="transactionManager" />
 
+	<bean id="currentTimeDateTimeService" class="com.med.firstapp.provider.ConstantTimeDateTimeService" />
+
+	<bean id="auditingDateTimeProvider" class="com.med.firstapp.provider.AuditingDateTimeProvider" />
+
+	<bean id="auditorAware" class="com.med.firstapp.provider.AuditorAwareImpl" />
+
+	<jpa:auditing date-time-provider-ref="auditingDateTimeProvider" auditor-aware-ref="auditorAware" modify-on-creation="false" />
+
 </beans>

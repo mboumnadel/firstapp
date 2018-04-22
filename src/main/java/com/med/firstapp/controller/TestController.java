@@ -245,4 +245,26 @@ public class TestController {
 
 		return "test_trans";
 	}
+
+	@RequestMapping(value = {"/testAddNewVehicle"}, method = RequestMethod.GET)
+	public String testAddNewVehicle(ModelMap model) {
+		System.out.println("------- testAddNewVehicle start ------");
+
+//		Vehicle vehicle = new Vehicle();
+//		vehicle.setMake("Citroen");
+//		vehicle.setModel("XMAX 400");
+//		vehicle.setYear(2018);
+//		System.out.println("------- before save new vehicle ------");
+//		vehicleRepository.save(vehicle);
+
+		System.out.println("------- before fetcing vehicle ------");
+		Vehicle vehicle2 = vehicleRepository.findById(396);
+		System.out.println("------- before saving existing vehicle ------");
+		vehicle2.setModel("new model");
+		vehicleRepository.save(vehicle2);
+		System.out.println("------- testAddNewVehicle end ------");
+
+
+        return "test_trans";
+	}
 }

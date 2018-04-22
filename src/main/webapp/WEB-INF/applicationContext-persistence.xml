@@ -85,6 +85,15 @@
 
 	<jpa:repositories base-package="com.med.firstapp.dao" transaction-manager-ref="transactionManager" />
 
+	<bean id="currentTimeDateTimeService" class="com.med.firstapp.provider.CurrentTimeDateTimeService" />
+	<bean id="auditingDateTimeProvider" class="com.med.firstapp.provider.AuditingDateTimeProvider" />
+
+	<bean id="auditorAware" class="com.med.firstapp.provider.AuditorAwareImpl" />
+
+	<!-- date-time-provider-ref uses jpa data CurrentDateTimeProvider by default -->
+	<jpa:auditing date-time-provider-ref="auditingDateTimeProvider" auditor-aware-ref="auditorAware" modify-on-creation="false" />
+
+
 	<!-- 
 	<context:property-placeholder location="classpath:persistence-mysql.properties" /> 
 	@PropertySource(value = { "classpath:application.properties" })	

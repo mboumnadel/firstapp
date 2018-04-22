@@ -19,11 +19,21 @@ public class QVehicle extends EntityPathBase<Vehicle> {
 
     public static final QVehicle vehicle = new QVehicle("vehicle");
 
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+
+    public final StringPath createdBy = createString("createdBy");
+
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final StringPath make = createString("make");
 
     public final StringPath model = createString("model");
+
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = createDateTime("modifiedAt", java.time.LocalDateTime.class);
+
+    public final StringPath modifiedBy = createString("modifiedBy");
+
+    public final NumberPath<Long> version = createNumber("version", Long.class);
 
     public final NumberPath<Integer> year = createNumber("year", Integer.class);
 
