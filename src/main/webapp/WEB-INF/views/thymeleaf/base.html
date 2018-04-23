@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="base_head(title,links)">
+    <title th:replace="${title}">Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Common styles and scripts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="all" href="../../../css/home.css" th:href="@{/css/home.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+  </head>
+
+  <body th:fragment="base_body(body)">
+    <nav th:replace="header :: header"></nav>
+    <div class="container-fluid text-center">
+      <div class="row content">
+        <div class="col-sm-2 sidenav">
+          <p><a href="order/search.html" th:href="@{/order/search}">Order Search</a></p>
+          <p><a href="employee/list.html" th:href="@{/employee/list}">Employee List</a></p>
+          <p><a href="#">Link</a></p>
+        </div>
+        <div class="col-sm-8 text-left">
+          <br/>
+          <div th:replace="${body}"></div>
+        </div>
+        <div class="col-sm-2 sidenav">
+          <div class="well">
+            <p>ADS</p>
+          </div>
+          <div class="well">
+            <p>ADS</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer th:replace="footer :: footer"></footer>
+</html>

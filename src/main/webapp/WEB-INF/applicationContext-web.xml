@@ -74,12 +74,32 @@
 	    </property>
 	</bean>
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+		<property name="order" value="2" /><!-- lower order value has a higher priority -->
+		<property name="viewNames" value="tiles/*" />
+	</bean>
 	
 	<!-- An other way to configure viewResolver -->
 <!-- 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> -->
 <!-- 	    <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/> -->
 <!-- 	</bean> -->
 
+
+	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+		 <property name="prefix" value="/WEB-INF/views/thymeleaf/" />
+		 <property name="suffix" value=".html" />
+		 <property name="templateMode" value="HTML" />
+		 <property name="cacheable" value="false" />
+	</bean>
+
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		 <property name="templateResolver" ref="templateResolver" />
+		 <property name="enableSpringELCompiler" value="true" />
+	</bean>
+
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="order" value="1" />
+	</bean>
 
 </beans>

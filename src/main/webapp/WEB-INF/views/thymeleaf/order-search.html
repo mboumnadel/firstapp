@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="base :: base_head(~{::title},~{})">
+    <title>Order - Search</title>
+  </head>
+  <body th:replace="base :: base_body(~{::_body})">
+    <th:block th:fragment="_body">
+
+      <form class="form-horizontal" action="" th:action="@{/order/search}" th:object="${order}" method="POST">
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="number">Order #:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" th:field="*{number}" placeholder="Enter Order Number"/>
+            <p th:if="${#fields.hasErrors('${order.number}')}" th:errors="*{number}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="orderDate">Required Date:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" th:field="*{orderDate}" placeholder="Enter order Date"/>
+            <p th:if="${#fields.hasErrors('${order.orderDate}')}" th:errors="*{orderDate}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="requiredDate">Required Date:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" th:field="*{requiredDate}" placeholder="Enter required Date"/>
+            <p th:if="${#fields.hasErrors('${order.requiredDate}')}" th:errors="*{requiredDate}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="status">Status:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" th:field="*{status}" placeholder="Enter Status"/>
+            <p th:if="${#fields.hasErrors('${order.status}')}" th:errors="*{status}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="customer">Customer :</label>
+          <div class="col-sm-10">
+            <select name="customer" title="Select a customer" class="form-control">
+              <option value="">Select a customer</option>
+              <option th:each="acustomer : ${customers}"
+                th:selected="${order.customer?.id == acustomer.id}"
+                th:value="${acustomer.id}"
+                th:text="|${acustomer.name} (${acustomer.number})|">
+              </option>
+            </select>
+            <!-- CustomerEditor getAsText  -->
+            <p th:if="${#fields.hasErrors('${order.customer}')}" th:errors="*{customer}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Search</button>
+          </div>
+        </div>
+
+      </form>
+
+    </th:block>
+  </body>
+</html>

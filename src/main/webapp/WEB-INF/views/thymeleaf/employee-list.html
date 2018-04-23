@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="base :: base_head(~{::title},~{})">
+    <title>Employee - Listing</title>
+  </head>
+  <body th:replace="base :: base_body(~{::_body})">
+    <th:block th:fragment="_body">
+      <div>
+        EMPLOYEE LIST:
+        <div class="table-responsive">
+          <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>Employee #</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Extension</th>
+              <th>Email</th>
+              <th>Job Title</th>
+              <th>Office City</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="employee: ${employees}">
+              <td th:text="${employee.number}">Number</td>
+              <td th:text="${employee.firstName}">First Name</td>
+              <td th:text="${employee.lastName}">Last Name</td>
+              <td th:text="${employee.extension}">Extension</td>
+              <td th:text="${employee.email}">Email</td>
+              <td th:text="${employee.jobTitle}">Job Title</td>
+              <td th:text="${employee.office.city}">City</td>
+              <td><a class="btn btn-link" href="employee/edit.html" th:href="@{'/employee/edit/' + ${employee.id}}">Edit</a></td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </th:block>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="base :: base_head(~{::title},~{})">
+    <title>Employee - Editing</title>
+  </head>
+  <body th:replace="base :: base_body(~{::_body})">
+    <th:block th:fragment="_body">
+      <div class="alert alert-success"  th:if="${saveEmployeeStatus == true}">
+        <strong>Success!</strong> Employee added successfully.
+      </div>
+      <div class="alert alert-danger"  th:if="${saveEmployeeStatus == false}">
+        <strong>Error!</strong> Employee data not valid.
+      </div>
+      <div class="alert alert-danger" th:if="${msg}" th:text="${msg}"></div>
+
+      <form class="form-horizontal" action="" th:action="@{/employee/save}" th:object="${employee}" method="POST">
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="id">ID:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="id" th:value="*{id}" />
+            <p th:if="${#fields.hasErrors('${employee.id}')}" th:errors="*{id}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="number">Employee #:</label>
+          <div class="col-sm-10" th:attrappend="class=${' ' + ( (#fields.hasErrors('${employee.number}'))? 'has-error' : '') }">
+            <input type="text" class="form-control" name="number" th:value="*{number}" placeholder="Enter Employee Number"/> 
+            <p th:if="${#fields.hasErrors('${employee.number}')}" th:errors="*{number}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="firstName">First Name:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="firstName" th:value="*{firstName}" placeholder="Enter First Name"/>
+            <p th:if="${#fields.hasErrors('${employee.firstName}')}" th:errors="*{firstName}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="lastName">Last Name:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="lastName" th:value="*{lastName}" placeholder="Enter Last Name"/>
+            <p th:if="${#fields.hasErrors('${employee.lastName}')}" th:errors="*{lastName}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="extension">Extension:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="extension" th:value="*{extension}" placeholder="Enter extension"/>
+            <p th:if="${#fields.hasErrors('${employee.extension}')}" th:errors="*{extension}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="email" th:value="*{email}" placeholder="Enter email"/>
+            <p th:if="${#fields.hasErrors('${employee.email}')}" th:errors="*{email}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="jobTitle">Job Title:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="jobTitle" th:value="*{jobTitle}" placeholder="Enter Job Title"/>
+            <p th:if="${#fields.hasErrors('${employee.jobTitle}')}" th:errors="*{jobTitle}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="office">Office :</label>
+          <div class="col-sm-10">
+            <select name="office" title="Select an office" class="form-control">
+              <option value="">Select an office</option>
+              <th:block th:each="anoffice : ${offices} ">
+                <option th:value="${anoffice.id}" th:text="${anoffice.city}" th:if="${anoffice.id == employee.office?.id}" selected="selected"></option>
+                <option th:value="${anoffice.id}" th:text="${anoffice.city}" th:unless="${anoffice.id == employee.office?.id}"></option>
+              </th:block>
+            </select>
+            <!-- OfficeEditor getAsText  -->
+            <p th:if="${#fields.hasErrors('${employee.office}')}" th:errors="*{office}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="reportsTo">Reports To :</label>
+          <div class="col-sm-10">
+            <select name="reportsTo" title="Select a Manager" class="form-control">
+              <option value="">Select a Manager</option>
+              <th:block th:each="anEmployee: ${employees}">
+                <option th:value="${anEmployee.id}" th:text="|${anEmployee.id}- ${anEmployee.firstName} ${anEmployee.lastName} (${anEmployee.number})|" th:if="${anEmployee.id == employee.reportsTo?.id}" selected="selected"></option>
+                <option th:value="${anEmployee.id}" th:text="|${anEmployee.id}- ${anEmployee.firstName} ${anEmployee.lastName} (${anEmployee.number})|" th:unless="${anEmployee.id == employee.reportsTo?.id}"></option>
+              </th:block>
+            </select>
+            <!-- EmployeeEditor getAsText  -->
+            <p th:if="${#fields.hasErrors('${employee.reportsTo}')}" th:errors="*{reportsTo}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Submit</button>
+          </div>
+        </div>
+
+      </form>
+    </th:block>
+  </body>
+</html>

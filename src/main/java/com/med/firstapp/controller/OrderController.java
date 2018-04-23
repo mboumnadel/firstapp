@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class OrderController {
 	@Autowired
 	private ProductService productService;
 
-	//@InitBinder(value = "order")
+	@InitBinder(value = "order")
 	protected void initBinder(WebDataBinder binder) {
 
 	    ///binder.setConversionService(conversionService);

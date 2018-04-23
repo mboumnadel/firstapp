@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="base :: base_head(~{::title},~{})">
+    <title>Order - Editing</title>
+  </head>
+  <body th:replace="base :: base_body(~{::_body})">
+    <th:block th:fragment="_body">
+
+      <div class="alert alert-success"  th:if="${saveOrderStatus == true}">
+        <strong>Success!</strong> Order added successfully.
+      </div>
+      <div class="alert alert-danger"  th:if="${saveOrderStatus == false}">
+        <strong>Error!</strong> Order data not valid.
+      </div>
+      <div class="alert alert-danger" th:if="${msg}" th:text="${msg}"></div>
+
+      <form class="form-horizontal" action="" th:action="@{/order/edit}" th:object="${order}" method="POST">
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="number">Order #:</label>
+          <label class="control-label col-sm-2" for="orderDate">Order Date:</label>
+          <label class="control-label col-sm-2" for="requiredDate">Required Date:</label>
+          <label class="control-label col-sm-2" for="shippedDate">Shipped Date:</label>
+          <label class="control-label col-sm-2" for="status">Status:</label>      
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2">
+            <input type="hidden" th:field="*{id}" />
+            <input type="text" class="form-control" th:field="*{number}" />
+            <p th:if="${#fields.hasErrors('${order.number}')}" th:errors="*{number}"></p>
+          </div>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" th:name="orderDate" th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" placeholder="Enter Order Date"/>
+            <p th:if="${#fields.hasErrors('${order.orderDate}')}" th:errors="*{orderDate}"></p>
+          </div>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" th:name="requiredDate" th:value="${#dates.format(order.requiredDate, 'yyyy-MM-dd')}" placeholder="Enter Required Date"/>
+            <p th:if="${#fields.hasErrors('${order.requiredDate}')}" th:errors="*{requiredDate}"></p>
+          </div>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" th:name="shippedDate" th:value="${#dates.format(order.shippedDate, 'yyyy-MM-dd')}" placeholder="Enter Shipped Date"/>
+            <p th:if="${#fields.hasErrors('${order.shippedDate}')}" th:errors="*{shippedDate}"></p>
+          </div>
+          <div class="col-sm-2">
+            <input type="text" class="form-control" th:field="*{status}" placeholder="Enter Status"/>
+            <p th:if="${#fields.hasErrors('${order.status}')}" th:errors="*{status}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3" for="customer">Customer:</label>
+          <label class="control-label col-sm-7" for="comments">Comment:</label>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-3">
+            <select name="customer" title="Select a customer" class="form-control">
+              <option value="">Select a customer</option>
+              <option th:each="acustomer : ${customers}"
+                th:selected="${order.customer?.id == acustomer.id}" 
+                th:value="${acustomer.id}" 
+                th:text="|${acustomer.name} (${acustomer.number})|">
+              </option>
+            </select>
+            <p th:if="${#fields.hasErrors('${order.customer}')}" th:errors="*{customer}"></p>
+          </div>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" th:field="*{comments}" placeholder="Enter Comment"/>
+            <p th:if="${#fields.hasErrors('${order.comments}')}" th:errors="*{comments}"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Product:</label>
+          <label class="control-label col-sm-3">Quantity Ordered:</label>
+          <label class="control-label col-sm-3">Price each:</label>
+          <label class="control-label col-sm-3">Order line #:</label>
+        </div>
+
+        <div class="form-group" th:each="anorderDetails, rowStat : ${order.orderDetails}" >
+          <div class="col-sm-3">
+            <input type="text" class="form-control" th:name="|orderDetails[${rowStat.index}].order|" th:value="${order.id}" />
+            <input type="text" class="form-control" th:name="|orderDetails[${rowStat.index}].id|" th:value="${anorderDetails.id}" />
+            <select th:name="|orderDetails[${rowStat.index}].product|" title="Select a product" class="form-control">
+              <option value="">Select a product</option>
+              <option th:each="aproduct : ${products}"
+                th:selected="${anorderDetails.product?.id == aproduct.id}"
+                th:value="${aproduct.id}"
+                th:text="|${aproduct.name}|">
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" th:name="|orderDetails[${rowStat.index}].quantityOrdered|" th:value="${anorderDetails.quantityOrdered}" />
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" th:name="|orderDetails[${rowStat.index}].priceEach|" th:value="${anorderDetails.priceEach}" />
+          </div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control" th:name="|orderDetails[${rowStat.index}].orderLineNumber|" th:value="${anorderDetails.orderLineNumber}" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Save</button>
+          </div>
+        </div>
+
+      </form>
+    </th:block>
+  </body>
+</html>
