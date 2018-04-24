@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <vehicle id="190" year="2012" make="Acura" model="ZDX"/>
-  <vehicle id="191" year="2012" make="Acura" model="MDX"/>
-  <vehicle id="192" year="2012" make="Acura" model="TSX"/>
-  <vehicle id="193" year="2012" make="Acura" model="TL"/>
-  <vehicle id="194" year="2012" make="Acura" model="RL"/>
-  <vehicle id="195" year="2012" make="Acura" model="RDX"/>
+  <vehicle id="190" year="2012" make="Acura" model="ZDX" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="191" year="2012" make="Acura" model="MDX" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="192" year="2012" make="Acura" model="TSX" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="193" year="2012" make="Acura" model="TL" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="194" year="2012" make="Acura" model="RL" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="195" year="2012" make="Acura" model="RDX" version="0" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
 
-  <vehicle id="221" year="2012" make="Aston Martin" model="DBS"/>
-  <vehicle id="222" year="2012" make="Aston Martin" model="DB9"/>
-  <vehicle id="223" year="2012" make="Aston Martin" model="V12 Vantage"/>
-  <vehicle id="226" year="2012" make="Aston Martin" model="Rapide"/>
+  <vehicle id="221" year="2012" make="Aston Martin" version="0" model="DBS" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="222" year="2012" make="Aston Martin" version="0" model="DB9" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="223" year="2012" make="Aston Martin" version="0" model="V12 Vantage" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
+  <vehicle id="226" year="2012" make="Aston Martin" version="0" model="Rapide" created_at="2018-04-01 00:00:00.0" created_by="Tester"/>
 </dataset>

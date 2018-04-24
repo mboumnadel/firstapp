@@ -67,6 +67,11 @@ public class Vehicle {
 	@LastModifiedBy
 	private String modifiedBy;
 
+	@Column(name = "version")
+	@Version
+	//javax.persistence.Version
+	private Long version;
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -106,11 +111,6 @@ public class Vehicle {
 	public void setVersion(Long version) {
 		this.version = version;
 	}
-
-	@Column(name = "version")
-	@Version
-	private Long version;
-
 
 	public Vehicle(){
 	}

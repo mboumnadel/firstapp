@@ -1,0 +1,16 @@
+<!ELEMENT dataset (
+    Vehicle*)>
+
+<!ELEMENT Vehicle EMPTY>
+<!ATTLIST Vehicle
+    id CDATA #REQUIRED
+    year CDATA #REQUIRED
+    make CDATA #IMPLIED
+    model CDATA #REQUIRED
+    version CDATA #IMPLIED
+    created_at CDATA #REQUIRED
+    created_by CDATA #REQUIRED
+    modified_at CDATA #IMPLIED
+    modified_by CDATA #IMPLIED
+>
+

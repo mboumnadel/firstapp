@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.database.QueryDataSet;
+import org.dbunit.dataset.xml.FlatDtdDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
 public class DbUnitDatabaseExport {
@@ -21,9 +22,9 @@ public class DbUnitDatabaseExport {
 
         // partial database export
         QueryDataSet partialDataSet = new QueryDataSet(connection);
-        partialDataSet.addTable("vehicle", "SELECT * FROM vehicle LIMIT 10 ");
-        //partialDataSet.addTable("vehicle");
-        FlatXmlDataSet.write(partialDataSet, new FileOutputStream("vehicle-first-10.xml"));
+        //partialDataSet.addTable("vehicle", "SELECT * FROM vehicle LIMIT 10 ");
+        partialDataSet.addTable("Vehicle");
+        FlatXmlDataSet.write(partialDataSet, new FileOutputStream("./src/test/resources/vehicle-first-10-v2.xml"));
 
         // full database export
         /*
@@ -41,7 +42,9 @@ public class DbUnitDatabaseExport {
 
 
         // write DTD file
-        //FlatDtdDataSet.write(partialDataSet, new FileOutputStream("partial.dtd"));
 
+        FlatDtdDataSet.write(partialDataSet, new FileOutputStream("vehicle.dtd"));
+
+        System.out.println("DataSet Created");
     }
 }

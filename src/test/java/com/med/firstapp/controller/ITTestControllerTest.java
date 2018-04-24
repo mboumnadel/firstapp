@@ -76,16 +76,16 @@ import com.querydsl.core.types.OrderSpecifier;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
-//@ContextConfiguration(locations = {"classpath:testContext.xml", "classpath:exampleApplicationContext-web.xml"})
 
 //@ContextConfiguration(locations = {"classpath:spring-servlet.xml"})
 // classpath points to src/main/resources or src/test/resources
+// "file:src/main/webapp/WEB-INF/applicationContext.xml",
 
 @ContextConfiguration(locations = {
-		"file:src/main/webapp/WEB-INF/applicationContext.xml",
-		"file:src/main/webapp/WEB-INF/applicationContext-test.xml",
-		"file:src/main/webapp/WEB-INF/applicationContext-persistence-test.xml",
-		"file:src/main/webapp/WEB-INF/applicationContext-web.xml"
+		"classpath:applicationContext.xml",
+		"classpath:applicationContext-test.xml",
+		"classpath:applicationContext-persistence-test.xml",
+		"classpath:applicationContext-web.xml"
 		})
 
 
@@ -377,6 +377,7 @@ public class ITTestControllerTest {
 				.param("make", String.valueOf(vehicle.getMake()))
 				.param("model", String.valueOf(vehicle.getModel()))
 				.param("year", String.valueOf(vehicle.getYear()))
+				.param("version", String.valueOf(vehicle.getVersion()))
 
 			)
 			.andExpect(model().hasNoErrors())
