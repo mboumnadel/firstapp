@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="base :: base_head(~{::title},~{})">
+    <title>Employee - Listing</title>
+  </head>
+  <body th:replace="base :: base_body(~{::_body})">
+    <th:block th:fragment="_body">
+      Welcome !
+    </th:block>
+  </body>
+</html>

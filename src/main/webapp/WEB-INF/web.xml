@@ -15,15 +15,30 @@
         classpath*:applicationContext.xml
         classpath*:applicationContext-persistence.xml
         classpath*:applicationContext-web.xml
-        </param-value>
+        classpath*:applicationContext-security.xml
+      </param-value>
     </init-param>
     <!-- <load-on-startup>1</load-on-startup> -->
   </servlet>
 
   <servlet-mapping>
     <servlet-name>spring</servlet-name>
+    <url-pattern></url-pattern>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+	<!-- Spring Security -->
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy
+    </filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 
   <servlet>
     <servlet-name>Demo</servlet-name>
@@ -36,3 +51,16 @@
   </servlet-mapping>
 
 </web-app>
+
+<!-- 
+Mapping /* => Overrides all other servlets, including all servlets provided by the servletcontainer 
+              such as the default servlet and the JSP servlet.
+              Usually used on a Filter only.
+
+Mapping / => DefaultServlet serves static resources as well as serves the directory listings.
+             will be invoked for all requests which doesn't match any other registered servlet.
+
+servletcontainer's builtin JSP servlet is mapped to *.jsp and *.jspx
+
+Mapping <url-pattern></url-pattern> will be invoked when the context root is requested.
+ -->
