@@ -1,4 +1,4 @@
-package com.med.firstapp.model;
+package com.med.firstapp.rest;
 
 
 import java.io.Serializable;

@@ -5,7 +5,6 @@ import javax.ws.rs.ext.ContextResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import com.med.firstapp.model.User;
 
 //@Provider
 public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper> {

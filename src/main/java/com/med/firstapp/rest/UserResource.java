@@ -17,7 +17,6 @@ import org.glassfish.jersey.linking.InjectLink.Style;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.med.firstapp.model.User;
 
 @XmlRootElement(name = "user")
 public class UserResource implements Serializable {

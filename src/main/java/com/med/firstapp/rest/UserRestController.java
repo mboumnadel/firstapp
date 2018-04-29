@@ -21,7 +21,6 @@ import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Lists;
 import com.med.firstapp.model.Email;
-import com.med.firstapp.model.User;
 
 
 @Path("/users")
