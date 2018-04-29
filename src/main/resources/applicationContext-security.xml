@@ -11,6 +11,7 @@
   >
 
   <http>
+    <remember-me key="uniqueAndSecret" />
 
     <intercept-url pattern="/login*" access="isAnonymous()" />
     <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
