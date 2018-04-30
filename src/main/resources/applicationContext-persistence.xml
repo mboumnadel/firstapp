@@ -83,7 +83,7 @@
 	</bean>
 	<tx:annotation-driven />
 
-	<jpa:repositories base-package="com.med.firstapp.dao" transaction-manager-ref="transactionManager" />
+	<jpa:repositories base-package="com.med.firstapp.dao" transaction-manager-ref="transactionManager" base-class="com.med.firstapp.dao.BaseRepositoryImpl"/>
 
 	<bean id="currentTimeDateTimeService" class="com.med.firstapp.provider.CurrentTimeDateTimeService" />
 	<bean id="auditingDateTimeProvider" class="com.med.firstapp.provider.AuditingDateTimeProvider" />
