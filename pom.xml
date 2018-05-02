@@ -415,6 +415,9 @@
 							</processors>
 							<includes>
 								<include>com/med/firstapp/model/Vehicle.java</include>
+                  <include>com/med/firstapp/model/User.java</include>
+                  <include>com/med/firstapp/model/Role.java</include>
+                  <include>com/med/firstapp/model/Privilege.java</include>
 							</includes>
 							<outputDirectory>src/main/generated/</outputDirectory>
 						</configuration>
