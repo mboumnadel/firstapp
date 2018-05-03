@@ -35,25 +35,28 @@ public class UserServiceImpl implements UserService {
     	privilegeRepo.findByName(read);
     	privilegeRepo.findByName(write);
 
-
     	Role userRole = roleRepo.findByName("ROLE_USER");
     	User user = new User();
         user.setFirstName("Simple");
         user.setLastName("User");
+        user.setUsername("user");
         user.setPassword(passwordEncoder.encode("user"));
-        user.setEmail("test@test.com");
+        user.setEmail("user@test.com");
         user.setRoles(Arrays.asList(userRole));
         user.setEnabled(true);
+        user.setTokenExpired(false);
         userRepo.save(user);
 
         Role adminRole = roleRepo.findByName("ROLE_ADMIN");
         User admin = new User();
-        admin.setFirstName("Admin");
-        admin.setLastName("User");
+        admin.setFirstName("Powerfull");
+        admin.setLastName("Admin");
+        admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin"));
-        admin.setEmail("test@test.com");
+        admin.setEmail("admint@test.com");
         admin.setRoles(Arrays.asList(adminRole));
         admin.setEnabled(true);
+        admin.setTokenExpired(false);
         userRepo.save(admin);
     }
 }

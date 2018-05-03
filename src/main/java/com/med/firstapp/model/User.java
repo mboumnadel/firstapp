@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="user")
 public class User implements Serializable {
@@ -29,6 +31,7 @@ public class User implements Serializable {
 	@Column(nullable=false, length=50)
 	private String email;
 
+	@Type(type="boolean")
 	@Column(nullable=false)
 	private Boolean enabled;
 
@@ -41,6 +44,9 @@ public class User implements Serializable {
 	@Column(nullable=false, length=100)
 	private String password;
 
+//	@Type(type="yes_no")  'Y' or 'N'
+//	@Type(type="true_false") = 'T' or 'F'
+	@Type(type="boolean")
 	@Column(nullable=false)
 	private Boolean tokenExpired;
 

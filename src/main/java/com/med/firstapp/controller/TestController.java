@@ -33,6 +33,7 @@ import com.med.firstapp.service.DummyBean;
 import com.med.firstapp.service.DummyService;
 import com.med.firstapp.service.OrderService;
 import com.med.firstapp.service.OwnerService;
+import com.med.firstapp.service.UserService;
 import com.med.firstapp.service.VehicleService;
 
 @Controller
@@ -43,6 +44,9 @@ public class TestController {
 	//http://blog.jhades.org/how-does-spring-transactional-really-work/
 	//http://blog.jhades.org/setup-and-gotchas-of-the-hibernate-second-level-and-query-caches/
 	//http://www.baeldung.com/spring-requestmapping
+
+	@Autowired
+    private UserService userService;
 
     @Autowired
     private VehicleRepository vehicleRepository;
@@ -266,5 +270,16 @@ public class TestController {
 
 
         return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testCreateUser"}, method = RequestMethod.GET)
+	public String testCreateUser(ModelMap model) {
+		System.out.println("------- testCreateUser start ------");
+
+		userService.createUser();
+
+		System.out.println("------- testCreateUser end  ------");
+
+		return "test_trans";
 	}
 }

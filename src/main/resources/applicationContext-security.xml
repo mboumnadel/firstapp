@@ -10,11 +10,14 @@
     http://www.springframework.org/schema/security/spring-security.xsd"
   >
 
+  <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+  <beans:bean id="appUserDetailsService" class="com.med.firstapp.service.AppUserDetailsService" />
+
   <http>
     <remember-me key="uniqueAndSecret" />
 
     <intercept-url pattern="/login*" access="isAnonymous()" />
-    <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+    <intercept-url pattern="/**" access="isAuthenticated()" />
 
     <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login?error" />
     <logout logout-url="/logout" logout-success-url="/login?logout" />
@@ -22,10 +25,8 @@
   </http>
 
   <authentication-manager>
-    <authentication-provider>
-      <user-service>
-    <user name="admin" password="admin" authorities="ROLE_USER" />
-      </user-service>
+    <authentication-provider user-service-ref="appUserDetailsService">
+      <password-encoder ref="passwordEncoder" />
     </authentication-provider>
   </authentication-manager>
 
