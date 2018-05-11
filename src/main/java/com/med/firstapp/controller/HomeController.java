@@ -1,5 +1,12 @@
 package com.med.firstapp.controller;
 
+import java.security.Principal;
+import java.util.Collection;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +17,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String welcomePage(ModelMap model) {
+	public String welcomePage(ModelMap model, Principal principal, Authentication authentication, HttpServletRequest request) {
 
 		System.out.println("welcome Page controller");
+		System.out.println("welcome principal.getName " + principal.getName());
+
+
+		Boolean inRole = request.isUserInRole("ADMIN");
+		System.out.println("inRole ADMIN :" + inRole);
+
+		//http://www.baeldung.com/spring-security-expressions-basic
+		//http://www.baeldung.com/spring-security-expressions
+
+		//@AuthenticationPrincipal User user
+
+		//Subject s = null;
+		//principal.implies(s);
+
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		System.out.println("authorities :" + authorities);
+
+
+		Object credentials = authentication.getCredentials();
+		System.out.println("credentials :" + credentials);
+
+
+		Object details = authentication.getDetails();
+		System.out.println("details :" + details);
+
+		String name = authentication.getName();
+		System.out.println("name :" + name);
+
+
+
 		return "welcome";
 	}
 

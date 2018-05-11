@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -105,6 +106,7 @@ public class OrderController {
 		return "order-edit";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public String saveOrder(@Valid  @ModelAttribute(value = "order") Order order,BindingResult result,  Model model, HttpServletRequest req){
 

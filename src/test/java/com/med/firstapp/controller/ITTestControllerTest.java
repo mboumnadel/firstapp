@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Date;
@@ -76,6 +77,15 @@ import com.querydsl.core.types.OrderSpecifier;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
+/*
+http://tutorials.jenkov.com/java-nio/index.html
+https://stackoverflow.com/questions/1606559/spring-aop-vs-aspectj
+http://www.vogella.com/tutorials/Spring/article.html
+http://www.vogella.com/tutorials/EclipseEMF/article.html
+http://www.baeldung.com/security-spring
+http://www.baeldung.com/spring-security-authentication-and-registration
+http://www.baeldung.com/spring-security-login
+*/
 
 //@ContextConfiguration(locations = {"classpath:spring-servlet.xml"})
 // classpath points to src/main/resources or src/test/resources
@@ -106,9 +116,6 @@ import com.querydsl.core.types.OrderSpecifier;
 				}
 			// , mergeMode = MergeMode.MERGE_WITH_DEFAULTS
 )
-
-
-
 
 
 
@@ -148,7 +155,6 @@ public class ITTestControllerTest {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-
     @Before
     public void setUp() {
        // Mockito.reset(todoServiceMock);
@@ -156,11 +162,41 @@ public class ITTestControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
+    @Test(expected = IOException.class)
+    public void testThrowIOException() throws Exception{
+    	System.out.println("---------- testThrowIOException @TEST Start ---------");
+
+    	//@Test Will make the test crash
+    	//@Test(expected = Exception.class) Will make the test fail
+    	//@Test(expected = IOException.class) Will make the test fail
+
+    	if(true){
+    		throw new IOException("test IOException");
+    	}
+
+    	//Never executed
+    	//System.out.println("---------- testThrowIOException @TEST End---------");
+    }
+
+    @Test(expected = Exception.class)
+    public void testThrowException() throws Exception{
+    	System.out.println("---------- testThrowException @TEST Start ---------");
+
+    	//@Test Will make the test crash
+    	//@Test(expected = Exception.class) Will make the test fail
+
+    	if(true){
+    		throw new Exception("test exception");
+    	}
+
+    	//Never executed
+    	//System.out.println("---------- testThrowException @TEST End---------");
+    }
 
     @Test
     @DatabaseSetup("/vehicle-first-10.xml")
     public void test_VehicleRepositoryImpl() throws UnsupportedEncodingException, Exception {
-    	System.out.println("---------- testtest_VehicleRepositoryImpl @TEST ---------");
+    	System.out.println("---------- test_VehicleRepositoryImpl @TEST ---------");
 
     	Integer id = 190;
 
@@ -180,7 +216,7 @@ public class ITTestControllerTest {
     @DatabaseSetup("/vehicle-first-10.xml")
 	public void testGetVehicles() throws UnsupportedEncodingException, Exception {
 
-    	System.out.println("---------- testGetVehicles @TEST ---------");
+    	System.out.println("---------- testGetVehicles @TEST start ---------");
 
     	mockMvc.perform(
 				get("/test/testGetVehicles")///?page=0&size=5&sort=make&sort=model,asc
@@ -195,7 +231,7 @@ public class ITTestControllerTest {
 
     		//.andReturn().getModelAndView().getModel().get("vehicles")
 
-		System.out.println("after calling mockmvc @TEST ");
+    	System.out.println("---------- testGetVehicles @TEST end ---------");
     }
 
     @Test
@@ -359,7 +395,7 @@ public class ITTestControllerTest {
     @ExpectedDatabase(assertionMode = DatabaseAssertionMode.NON_STRICT_UNORDERED, value = "/expected_vehicles.xml")
 	public void testSaveVehicle() throws UnsupportedEncodingException, Exception {
 
-    	System.out.println("---------- testSaveVehicle @TEST ---------");
+    	System.out.println("---------- testSaveVehicle @TEST start ---------");
 
     	int vehicleId = 1;
     	Vehicle vehicle = vehicleService.findById(vehicleId);
@@ -390,7 +426,7 @@ public class ITTestControllerTest {
 			))
 			;
 
-		System.out.println("after calling mockmvc @TEST ");
+		System.out.println("---------- testSaveVehicle @TEST end ---------");
     }
 
 

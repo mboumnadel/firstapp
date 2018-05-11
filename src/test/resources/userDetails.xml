@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <role id="1" name="ROLE_ADMIN"/>
+  <role id="2" name="ROLE_USER"/>
+  <user id="1" username="tmp" firstName="123456" lastName="tmp" email="tmp@example.com" password="$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8." enabled="true" tokenExpired="false"/>
+  <user id="5" username="user" firstName="Simple" lastName="User" email="user@test.com" password="$2a$10$TKbhYUlc06567wgipVAQz.e6tfoB59ZAnY4L/nO5Kv3E4h8Vsz5uK" enabled="true" tokenExpired="false"/>
+  <user id="6" username="admin" firstName="Powerfull" lastName="Admin" email="admint@test.com" password="$2a$10$w4vOKADRUZL8NSPV0gCIqOkGaIqXA0f3daig2MmXJBI.OyMDF/xlO" enabled="true" tokenExpired="false"/>
+  <user_role user_id="1" role_id="2"/>
+  <user_role user_id="5" role_id="2"/>
+  <user_role user_id="6" role_id="1"/>
+  <privilege id="1" name="READ_PRIVILEGE"/>
+  <privilege id="2" name="WRITE_PRIVILEGE"/>
+  <role_privilege role_id="1" privilege_id="1"/>
+  <role_privilege role_id="1" privilege_id="2"/>
+  <role_privilege role_id="2" privilege_id="1"/>
+</dataset>

@@ -1,0 +1,79 @@
+<http pattern="/css/**" security="none"/> <!-- Oblivious security filter chain -->
+<http pattern="/login.jsp*" security="none"/>
+
+<form-login login-page='/login.jsp'/>
+
+<form-login login-page='/login.htm' default-target-url='/home.htm'
+    always-use-default-target='true' />
+
+default-target-url default to /
+logout-url defaults to /logout
+
+
+<authentication-manager>
+  <authentication-provider user-service-ref='myUserDetailsService'/>
+</authentication-manager>
+
+
+-----------------
+<beans:bean name="bcryptEncoder"
+  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+<authentication-manager>
+<authentication-provider>
+  <password-encoder ref="bcryptEncoder"/>
+  <user-service>
+  <user name="jimi" password="d7e6351eaa13189a5a3641bab846c8e8c69ba39f"
+      authorities="ROLE_USER, ROLE_ADMIN" />
+  <user name="bob" password="4e7421b1b8765d8f9406d87e7cc6aa784c4ab97f"
+      authorities="ROLE_USER" />
+  </user-service>
+</authentication-provider>
+</authentication-manager>
+----------------------------------
+
+<http>
+...
+<session-management invalid-session-url="/invalidSession.htm" />
+<logout delete-cookies="JSESSIONID" />
+
+</http>
+
+-----------------------
+
+<global-method-security secured-annotations="enabled" />
+
+
+public interface BankService {
+
+@Secured("IS_AUTHENTICATED_ANONYMOUSLY")
+public Account readAccount(Long id);
+
+@Secured("IS_AUTHENTICATED_ANONYMOUSLY")
+public Account[] findAccounts();
+
+@Secured("ROLE_TELLER")
+public Account post(Account account, double amount);
+}
+
+
+--------------------
+
+<c:if test="${param.error != null}">        2
+    <p>
+      Invalid username and password.
+    </p>
+  </c:if>
+  <c:if test="${param.logout != null}">       3
+    <p>
+      You have been logged out.
+    </p>
+  </c:if>
+
+If the query parameter error exists, authentication was attempted and failed
+
+
+If the query parameter logout exists, the user was successfully logged out
+---------------------------
+
+

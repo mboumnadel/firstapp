@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -98,6 +99,7 @@ public class EmployeeController {
 		return "employee-edit";
 	}
 
+	@PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
 	@RequestMapping(value = {"/save"}, method = RequestMethod.POST)
 	public String saveEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, ModelMap model){
 

@@ -16,7 +16,7 @@
   <http>
     <remember-me key="uniqueAndSecret" />
 
-    <intercept-url pattern="/login*" access="isAnonymous()" />
+    <intercept-url pattern="/login*" access="permitAll()"/>
     <intercept-url pattern="/**" access="isAuthenticated()" />
 
     <form-login login-page="/login" default-target-url="/" authentication-failure-url="/login?error" />
@@ -30,5 +30,6 @@
     </authentication-provider>
   </authentication-manager>
 
+  <global-method-security pre-post-annotations="enabled" />
 
 </beans:beans>

@@ -1,7 +1,6 @@
 package com.med.firstapp.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.med.firstapp.dao.RoleRepository;
 import com.med.firstapp.dao.UserRepository;
 import com.med.firstapp.model.Privilege;
 import com.med.firstapp.model.Role;
@@ -25,29 +23,32 @@ public class AppUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
-    @Autowired
-    private UserService userService;
+    public AppUserDetailsService(){
 
-//    @Autowired
-//    private MessageSource messages;
-
-    @Autowired
-    private RoleRepository roleRepo;
+    	System.out.println("********** AppUserDetailsService Constructor ");
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+    	System.out.println("*********** loadUserByUsername called with " + username);
+
         User user = userRepo.findByUsername(username);
         if (user == null) {
-            return new org.springframework.security.core.userdetails.User(
-              " ", " ", true, true, true, true,
-              getAuthorities(Arrays.asList(roleRepo.findByName("ROLE_USER")))
-              );
+        	throw new UsernameNotFoundException(username);
         }
 
+        System.out.println("********** loadUserByUsername will return user ************* ");
+
         return new org.springframework.security.core.userdetails.User(
-          user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
-          true, getAuthorities(user.getRoles()));
+          user.getUsername(),
+          user.getPassword(),
+          user.isEnabled(),
+          !user.isTokenExpired(),
+          true,
+          true,
+          getAuthorities(user.getRoles())
+          );
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
@@ -59,7 +60,6 @@ public class AppUserDetailsService implements UserDetailsService {
 
         for (String privilege : privileges) {
             authorities.add(new SimpleGrantedAuthority(privilege));
-            System.out.println("privilege: " + privileges);
         }
         return authorities;
     }
@@ -67,14 +67,13 @@ public class AppUserDetailsService implements UserDetailsService {
     private List<String> getPrivileges(Collection<Role> roles) {
 
         List<String> privileges = new ArrayList<>();
-        List<Privilege> collection = new ArrayList<>();
 
         for (Role role : roles) {
-            collection.addAll(role.getPrivileges());
-        }
+        	privileges.add(role.getName());
 
-        for (Privilege item : collection) {
-            privileges.add(item.getName());
+            for (Privilege privilege : role.getPrivileges()) {
+                privileges.add(privilege.getName());
+            }
         }
         return privileges;
     }

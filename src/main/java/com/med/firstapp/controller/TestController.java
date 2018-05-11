@@ -2,6 +2,7 @@ package com.med.firstapp.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -279,6 +283,59 @@ public class TestController {
 		userService.createUser();
 
 		System.out.println("------- testCreateUser end  ------");
+
+		return "test_trans";
+	}
+
+	@RequestMapping(value = {"/testUnsecured"}, method = RequestMethod.GET)
+	public String testUnsecured(ModelMap model, Authentication authentication) {
+		System.out.println("------- testUnsecured start ------");
+
+		if(authentication != null){
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			System.out.println("authorities :" + authorities);
+
+			Object credentials = authentication.getCredentials();
+			System.out.println("credentials :" + credentials);
+
+			Object details = authentication.getDetails();
+			System.out.println("details :" + details);
+
+			String name = authentication.getName();
+			System.out.println("name :" + name);
+		} else {
+			System.out.println("authentication is null");
+		}
+
+		System.out.println("------- testUnsecured end  ------");
+
+		return "test_trans";
+	}
+
+	@PreAuthorize("authenticated")
+	@RequestMapping(value = {"/testPreAuthorizeAuthenticated"}, method = RequestMethod.GET)
+	public String testPreAuthorizeAuthenticated(ModelMap model, Authentication authentication) {
+		System.out.println("------- testPreAuthorizeAuthenticated start ------");
+
+		if(authentication != null){
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			System.out.println("authorities :" + authorities);
+
+
+			Object credentials = authentication.getCredentials();
+			System.out.println("credentials :" + credentials);
+
+
+			Object details = authentication.getDetails();
+			System.out.println("details :" + details);
+
+			String name = authentication.getName();
+			System.out.println("name :" + name);
+		} else {
+			System.out.println("authentication is null");
+		}
+
+		System.out.println("------- testPreAuthorizeAuthenticated End ------");
 
 		return "test_trans";
 	}
